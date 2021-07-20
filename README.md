@@ -4,7 +4,7 @@
 
 ### What will this application do?
 
-The basic find and replace operations in common text editors have largely remained the same since their inception. You have the option to find an expression in a document, and replace that expression (or all instances of that expression) with something else. However, the event arises where one has to perform multiples of these operations, many times over. For example, converting a *WolframAlpha* output to *LaTeX* formatting requires numerous "find and replace all" instances:
+The basic find and replace operations in common text editors have largely remained the same since their inception. You have the option to find an expression in a document, and replace that expression (or all instances of that expression) with something else. However, the event arises where one has to perform multiples of these operations, many times over. For example, converting a *WolframAlpha* output to *LaTeX* formatting requires numerous "find and replace all" instances, including but not limited to the following:
 
 - Replacing all "|" characters to "&"
 - replacing all weird Unicode characters to *LaTeX* commands, where each special Unicode character is a separate find and replace operation
