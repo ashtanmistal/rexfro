@@ -11,7 +11,7 @@ The basic find and replace operations in common text editors have largely remain
 
 Hence, this application allows the user to do just that: perform multiples of these operations, many times over, and in multiple documents. This would be done by storing a .csv file (or, more likely, a .tsv) of all expressions to find, what to replace said expressions with, whether or not the specific operation is case sensitive, and a Boolean of automatically replacing all instances of an expression or to prompt the user for each instance. The application allows one to perform a myriad of more complex actions rather than a simple find and replace. The application will also allow the user to create a new line of commands to perform from scratch, and the option to store it for later as a .csv or .tsv. For the most versatile method of this, the application utilizes *regular expressions*, allowing the following additional functionality along with so much more:
 
-- Adding " \\" at the end of each line of outputted WolframAlpha text
+- Adding " \\\\" at the end of each line of outputted WolframAlpha text
 - Replacing all instances of " x/y " with "\frac{x}{y}", for any values of x and y 
 - replacing all instances of " .tsv" with ".csv or .tsv" **unless** " .csv or " is already to the left of " .tsv"
 
