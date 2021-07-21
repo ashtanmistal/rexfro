@@ -36,9 +36,9 @@ Because I'm fed up with always having to turn the outout of a WolframAlpha query
 - As a user, I want to be able to modify a current operation before it is performed
 - As a user, I want to be able to delete a current operation, preventing it from being performed
 - As a user, I want to be able to re-order the current list of operations before they are performed
-- As a user, I want to be able to perform a find-and-replace operation list on a given piece of text
-- As a user, I want to be able to see the post-operation piece of text
 - As a user, I want to be able to choose whether or not a given find-and-replace operation is to be performed all at once
 - As a user, I want to be able to choose if a given find-and-replace operation is to be performed case-sensitive
+- As a user, I want to be able to perform a find-and-replace operation list on a given piece of text
+- As a user, I want to be able to see the post-operation piece of text
 - As a user, I want to be able to perform the same consecutive find-and-replace operations on another piece of text
-- As a user, I want to be able to edit a current list of operations (User Stories 1 to 5 inclusive) prior to another operation
+- As a user, I want to be able to edit a current list of operations (User Stories 1 to 7 inclusive) prior to another operation
