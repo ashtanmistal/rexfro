@@ -31,7 +31,7 @@ Because I'm fed up with always having to turn the outout of a WolframAlpha query
 
 ## User Stories
 
-- As a user, I want to be able to create a new find-and-replace operation
+- As a user, I want to be able to add a new find-and-replace operation to the list of operations
 - As a user, I want to be able to view the current list of operations to be performed
 - As a user, I want to be able to modify a current operation before it is performed
 - As a user, I want to be able to delete a current operation, preventing it from being performed
