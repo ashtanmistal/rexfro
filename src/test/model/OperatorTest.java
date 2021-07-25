@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OperatorTest {
@@ -65,4 +67,16 @@ public class OperatorTest {
             // all good
         }
     }
+
+    @Test
+    public void testMultipleStringsSingularOperation() {
+        String text1 = "Hello there, ladies and gentlemen!";
+        String text2 = "Hello there! General Kenobi";
+        String replace1 = operator.singular(text1, "Hello there", "Good morning", true);
+        String replace2 = operator.singular(text2, "Hello there", "Good morning", true);
+        assertEquals(replace1, "Good morning, ladies and gentlemen!");
+        assertEquals(replace2, "Good morning! General Kenobi");
+    }
+
+
 }

@@ -33,7 +33,7 @@ public class Queue {
             return findQueue.size();
         }
     }
-    
+
     // modifies: this.findQueue
     // effects: returns first element of findQueue and removes it from the queue
     public String getFirstFind() {
@@ -71,4 +71,22 @@ public class Queue {
     public Boolean isEmpty() throws Exception {
         return getLength() == 0;
     }
+
+    public void modifyItem(Integer i, String newFind, String newReplace, String newAll) throws InvalidLengthException {
+        if (i < getLength()) {
+            findQueue.set(i, newFind);
+            replaceQueue.set(i, newReplace);
+            replaceAllQueue.set(i, newAll);
+        } else {
+            throw new InvalidLengthException();
+        }
+    }
+
+
+    public void deleteItem(int i) {
+        String findRemoved = findQueue.remove(i);
+        String replaceRemoved = replaceQueue.remove(i);
+        String replaceAllRemoved = replaceAllQueue.remove(i);
+    }
+
 }

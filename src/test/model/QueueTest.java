@@ -122,4 +122,30 @@ class QueueTest {
             // all good
         }
     }
+
+    @Test
+    public void testModifyItemOneItem() {
+        queue.addToQueue("5 jetting", "rupture", "True");
+        try {
+            queue.modifyItem(0, "hi", "try", "True");
+            assertTrue(queue.getFirstBool());
+            assertEquals(queue.getFirstFind(), "hi");
+            assertEquals(queue.getFirstReplace(), "try");
+        } catch (InvalidLengthException e) {
+            fail("Unexpected InvalidLengthException");
+        } catch (InvalidBooleanException e) {
+            fail("Unexpected InvalidBoolean Exception");
+        }
+    }
+
+    @Test
+    public void testDeleteItem() {
+        queue.addToQueue("Hello there", "Good Morning", "True");
+        queue.deleteItem(0);
+        try {
+            assertTrue(queue.isEmpty());
+        } catch (Exception e) {
+            fail("Unexpected exception");
+        }
+    }
 }
