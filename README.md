@@ -27,7 +27,7 @@ The intention is to make this application usable for anyone working with text do
 
 ### Why is this project of interest to you?
 
-Because I'm fed up with always having to turn the outout of a WolframAlpha query to proper LaTeX commands, and I often find myself performing multiple find and replace operations either by hand or through find and replace tools, and I want to save time when writing or creating documents. (I know I can just use Symbolab instead of WolframAlpha as it outputs LaTeX, but I really like WolframAlpha and I am stubborn and lazy and so I refuse to switch). I would love the ability to just import a .csv file (or make a new one within the application), and have all of my text changing operations done for me. Plus it's not an idea I've heard of before, so it'd be pretty neat to make something (kind of) new. 
+Because I'm fed up with always having to turn the outout of a WolframAlpha query to proper LaTeX commands, and I often find myself performing multiple find and replace operations either by hand or through find and replace tools, and I want to save time when writing or creating documents. I would love the ability to just import a .csv file (or make a new one within the application), and have all of my text changing operations done for me. Plus it's not an idea I've heard of before, so it'd be pretty neat to make something (kind of) new. 
 
 ## User Stories
 
