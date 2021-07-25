@@ -89,6 +89,14 @@ public class Queue {
         }
     }
 
+    public String getBoolString(int i) throws InvalidLengthException {
+        if (i >= getLength()) {
+            throw new InvalidLengthException();
+        } else {
+            return replaceAllQueue.get(i);
+        }
+    }
+
     // modifies: this
     // effects: re-orders elements i1 and i2 in all lists
     public void swap(int i1, int i2) throws InvalidIntegerException {

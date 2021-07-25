@@ -194,4 +194,27 @@ class QueueTest {
             // all good
         }
     }
+
+    @Test
+    public void getBoolStringValid() {
+        queue.addToQueue("Hello there", "werhfgnd", "True");
+        try {
+            String temp = queue.getBoolString(0);
+            assertEquals(temp, "True");
+        } catch (InvalidLengthException e){
+            fail("Unexpected error in getting boolean as string");
+        }
+    }
+
+    @Test
+    public void getBoolStringInvalid() {
+        queue.addToQueue("Hello there", "werhfgnd", "True");
+        try {
+            queue.getBoolString(7);
+            fail("Did not catch incorrect integer");
+        } catch (InvalidLengthException e) {
+            // all good
+        }
+    }
+
 }
