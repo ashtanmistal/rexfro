@@ -19,8 +19,8 @@ public class Operator {
 
     public String iterator(String text, Queue queue) throws Exception {
 
-        for (int k = 0; k <= queue.getLength() + 1; k++) {
-            text = singular(text, queue.getFirstFind(), queue.getFirstReplace(), queue.getFirstBool());
+        for (int k = 0; k < queue.getLength(); k++) {
+            text = singular(text, queue.getFind(k), queue.getReplace(k), queue.getBool(k));
         }
         return text;
     }

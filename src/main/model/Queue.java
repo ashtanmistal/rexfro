@@ -56,6 +56,39 @@ public class Queue {
         }
     }
 
+    public String getFind(int i) throws InvalidLengthException {
+        if (i >= getLength()) {
+            throw new InvalidLengthException();
+        } else {
+            return findQueue.get(i);
+        }
+    }
+
+    public String getReplace(int i) throws InvalidLengthException {
+        if (i >= getLength()) {
+            throw new InvalidLengthException();
+        } else {
+            return replaceQueue.get(i);
+        }
+    }
+
+    public Boolean getBool(int i) throws InvalidBooleanException, InvalidLengthException {
+
+        if (i >= getLength()) {
+            throw new InvalidLengthException();
+        } else {
+            String replace = replaceAllQueue.get(i);
+            if (replace.equalsIgnoreCase("True") || replace.equalsIgnoreCase("T") || replace.equals("1")) {
+                return true;
+
+            } else if (replace.equalsIgnoreCase("False") || replace.equalsIgnoreCase("F") || replace.equals("0")) {
+                return false;
+            } else {
+                throw new InvalidBooleanException();
+            }
+        }
+    }
+
     // modifies: this
     // effects: re-orders elements i1 and i2 in all lists
     public void swap(int i1, int i2) throws InvalidIntegerException {
@@ -84,9 +117,9 @@ public class Queue {
 
 
     public void deleteItem(int i) {
-        String findRemoved = findQueue.remove(i);
-        String replaceRemoved = replaceQueue.remove(i);
-        String replaceAllRemoved = replaceAllQueue.remove(i);
+        findQueue.remove(i);
+        replaceQueue.remove(i);
+        replaceAllQueue.remove(i);
     }
 
 }

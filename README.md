@@ -27,7 +27,7 @@ The intention is to make this application usable for anyone working with text do
 
 ### Why is this project of interest to you?
 
-Because I'm fed up with always having to turn the outout of a WolframAlpha query to proper LaTeX commands, and I often find myself performing multiple find and replace operations either by hand or through find and replace tools, and I want to save time when writing or creating documents. I would love the ability to just import a .csv file (or make a new one within the application), and have all of my text changing operations done for me. Plus it's not an idea I've heard of before, so it'd be pretty neat to make something (kind of) new. 
+Because I'm fed up with always having to turn the output of a WolframAlpha query to proper LaTeX commands, and I often find myself performing multiple find and replace operations either by hand or through find and replace tools, and I want to save time when writing or creating documents. I would love the ability to just import a .csv file (or make a new one within the application), and have all of my text changing operations done for me. Plus it's not an idea I've heard of before, so it'd be pretty neat to make something (kind of) new. 
 
 ## User Stories
 
@@ -36,8 +36,8 @@ Because I'm fed up with always having to turn the outout of a WolframAlpha query
 - As a user, I want to be able to modify a current operation before it is performed \[Done\]
 - As a user, I want to be able to delete a current operation, preventing it from being performed \[Done\]
 - As a user, I want to be able to re-order the current list of operations before they are performed \[\done\]
-- As a user, I want to be able to choose whether a given find-and-replace operation is to be performed all at once \[done\]
+- As a user, I want to be able to choose whether a given operation is to be performed all at once, or just the first instance \[done\]
 - As a user, I want to be able to perform a find-and-replace operation list on a given piece of text \[done\]
 - As a user, I want to be able to see the post-operation piece of text \[UI\]
-- As a user, I want to be able to perform the same consecutive find-and-replace operations on another piece of text
-- As a user, I want to be able to edit a current list of operations (User Stories 1 to 7 inclusive) prior to another operation
+- As a user, I want to be able to perform the same consecutive find-and-replace operations on another piece of text \[Done\]
+- As a user, I want to be able to edit a current list of operations (User Stories 1 to 7 inclusive) prior to another operation \[Done\]

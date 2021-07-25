@@ -1,5 +1,6 @@
 package model;
 
+import model.exceptions.InvalidLengthException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,11 +47,6 @@ public class OperatorTest {
                     " tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud " +
                     "exercitation ullamco laboris");
         } catch (Exception e) { fail("Unexpected error in an iteration"); }
-        try {
-            assertTrue(queue.isEmpty());
-        } catch (Exception e) {
-            fail("Unexpected exception");
-        }
     }
 
     @Test
@@ -76,6 +72,31 @@ public class OperatorTest {
         String replace2 = operator.singular(text2, "Hello there", "Good morning", true);
         assertEquals(replace1, "Good morning, ladies and gentlemen!");
         assertEquals(replace2, "Good morning! General Kenobi");
+    }
+
+    @Test
+    public void testEditAfterOneReplaceBeforeAnother() {
+        queue.addToQueue("Hello there", "Good Morning", "True");
+        queue.addToQueue("L", "ELL", "False");
+        String text1 = "Hello there, ladies and gentlemen!";
+        String text2 = "Hello there! General Kenobi";
+        try {
+            String replace1 = operator.iterator(text1, queue);
+            assertEquals(replace1, "Good Morning, ladies and gentlemen!");
+        } catch (Exception e) {
+            fail("Unexpected iteration error");
+        }
+        try {
+            queue.modifyItem(1, "l", "L", "true");
+        } catch (InvalidLengthException e) {
+            fail("The index should be in range");
+        }
+        try {
+            String replace2 = operator.iterator(text2, queue);
+            assertEquals("Good Morning! GeneraL Kenobi", replace2);
+        } catch (Exception e) {
+            fail("Unexpected iteration exception");
+        }
     }
 
 

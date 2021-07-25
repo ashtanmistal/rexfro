@@ -148,4 +148,50 @@ class QueueTest {
             fail("Unexpected exception");
         }
     }
+
+    @Test
+    public void testModifyItemInvalidInteger() {
+        queue.addToQueue("Hello there", "Good Morning", "True");
+        try {
+            queue.modifyItem(6, "rth n", "wrth bsfvxc", "True");
+            fail("Did not catch invalid integer for index");
+        } catch (InvalidLengthException e) {
+            // all good
+        }
+    }
+
+    @Test
+    public void testGetFind() {
+        queue.addToQueue("Hello there", "Good Morning", "True");
+        try {
+            queue.getFind(7);
+            fail("Did not catch invalid integer exception");
+        } catch (InvalidLengthException e) {
+            // all good
+        }
+    }
+
+    @Test
+    public void testGetReplace() {
+        queue.addToQueue("Hello there", "Good Morning", "True");
+        try {
+            queue.getReplace(7);
+            fail("Did not catch invalid integer exception");
+        } catch (InvalidLengthException e) {
+            // all good
+        }
+    }
+
+    @Test
+    public void testGetBool() {
+        queue.addToQueue("Hello there", "Good Morning", "True");
+        try {
+            queue.getBool(7);
+            fail("Did not catch invalid integer exception");
+        } catch (InvalidBooleanException e) {
+            fail("You should not be catching a boolean error!");
+        } catch (InvalidLengthException e) {
+            // all good
+        }
+    }
 }
