@@ -4,8 +4,6 @@ import model.exceptions.InvalidLengthException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OperatorTest {
@@ -57,7 +55,7 @@ public class OperatorTest {
         queue.addToQueue("o", "0", "false");
         queue.addToQueue("cons", "4576", "F");
         try {
-            String replace = operator.iterator(text, queue);
+            operator.iterator(text, queue);
             fail("Iterator did not catch NotABoolean");
         } catch (Exception e) {
             // all good

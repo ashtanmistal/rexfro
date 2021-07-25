@@ -46,10 +46,10 @@ public class Queue {
 
     public Boolean getFirstBool() throws InvalidBooleanException {
         String replace = replaceAllQueue.remove(0);
-        if (replace.equalsIgnoreCase("True") || replace.equalsIgnoreCase("T") || replace.equals("1")) {
+        if (validTrue(replace)) {
             return true;
 
-        } else if (replace.equalsIgnoreCase("False") || replace.equalsIgnoreCase("F") || replace.equals("0")) {
+        } else if (validFalse(replace)) {
             return false;
         } else {
             throw new InvalidBooleanException();
@@ -73,15 +73,14 @@ public class Queue {
     }
 
     public Boolean getBool(int i) throws InvalidBooleanException, InvalidLengthException {
-
         if (i >= getLength()) {
             throw new InvalidLengthException();
         } else {
             String replace = replaceAllQueue.get(i);
-            if (replace.equalsIgnoreCase("True") || replace.equalsIgnoreCase("T") || replace.equals("1")) {
+            if (validTrue(replace)) {
                 return true;
 
-            } else if (replace.equalsIgnoreCase("False") || replace.equalsIgnoreCase("F") || replace.equals("0")) {
+            } else if (validFalse(replace)) {
                 return false;
             } else {
                 throw new InvalidBooleanException();
@@ -128,6 +127,26 @@ public class Queue {
         findQueue.remove(i);
         replaceQueue.remove(i);
         replaceAllQueue.remove(i);
+    }
+
+    public boolean validTrue(String replace) {
+        if (replace.equalsIgnoreCase("True")) {
+            return true;
+        } else if (replace.equalsIgnoreCase("T")) {
+            return true;
+        } else {
+            return replace.equals("1");
+        }
+    }
+
+    public boolean validFalse(String replace) {
+        if (replace.equalsIgnoreCase("False")) {
+            return true;
+        } else if (replace.equalsIgnoreCase("F")) {
+            return true;
+        } else {
+            return replace.equals("0");
+        }
     }
 
 }

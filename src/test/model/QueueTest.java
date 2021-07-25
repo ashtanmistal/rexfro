@@ -217,4 +217,81 @@ class QueueTest {
         }
     }
 
+    @Test
+    public void testValidTrueReturnTrue() {
+        assertTrue(queue.validTrue("T"));
+    }
+
+    @Test
+    public void testValidTrueReturnFalse() {
+        assertFalse(queue.validTrue("k ujrynhdg"));
+    }
+
+    @Test
+    public void testValidFalseReturnTrue() {
+        assertTrue(queue.validFalse("F"));
+    }
+
+    @Test
+    public void testValidFalseReturnFalse() {
+        assertFalse(queue.validFalse(" htreb"));
+    }
+
+    @Test
+    public void testGetFindValid() {
+        queue.addToQueue("rty", "ye", "T");
+        try {
+            queue.getFind(0);
+        } catch (InvalidLengthException e) {
+            fail("Caught unexpected error");
+        }
+    }
+
+    @Test
+    public void testGetReplaceValid() {
+        queue.addToQueue("rty", "ye", "T");
+        try {
+            queue.getReplace(0);
+        } catch (InvalidLengthException e) {
+            fail("Caught unexpected error");
+        }
+    }
+
+    @Test
+    public void testGetBoolValidTrue() {
+        queue.addToQueue("rty", "ye", "T");
+        try {
+            assertTrue(queue.getBool(0));
+        } catch (InvalidLengthException e) {
+            fail("Caught unexpected error, the integer is within the bounds");
+        } catch (InvalidBooleanException e) {
+            fail("The boolean was valid but returned as not valid");
+        }
+    }
+
+    @Test
+    public void testGetBoolValidFalse() {
+        queue.addToQueue("rty", "ye", "F");
+        try {
+            assertFalse(queue.getBool(0));
+        } catch (InvalidLengthException e) {
+            fail("Caught unexpected error, the integer is within the bounds");
+        } catch (InvalidBooleanException e) {
+            fail("The boolean was valid but returned as not valid");
+        }
+    }
+
+    @Test
+    public void testGetBoolInvalidFalse() {
+        queue.addToQueue(" htre", "e rhbfds", "e rbd");
+        try {
+            queue.getBool(0);
+            fail("Exception was not thrown");
+        } catch (InvalidBooleanException e) {
+            // all good
+        } catch (InvalidLengthException e) {
+            fail("Unexpected length issue");
+        }
+    }
+
 }

@@ -129,7 +129,8 @@ public class FindAndReplaceApp {
 
     private void doRunNewString() {
         System.out.println("Enter the text to be operated on:");
-        String text = input.next();
+        input.nextLine();
+        String text = input.nextLine();
         try {
             System.out.println(operator.iterator(text, queue));
         } catch (Exception e) {
@@ -139,12 +140,13 @@ public class FindAndReplaceApp {
     }
 
     private void doManualFindReplace() {
+        input.nextLine();
         System.out.println("Enter text:");
-        String text = input.next();
+        String text = input.nextLine();
         System.out.println("Find:");
-        String find = input.next();
+        String find = input.nextLine();
         System.out.println("Replace:");
-        String replace = input.next();
+        String replace = input.nextLine();
         System.out.println("Replace All [t] or First Instance [f]:");
         String all = input.next();
         if (checkValid(find, replace, all)) {
@@ -157,7 +159,7 @@ public class FindAndReplaceApp {
     }
 
     private Boolean toBool(String newReplaceAll) {
-        return newReplaceAll.equalsIgnoreCase("True") || newReplaceAll.equalsIgnoreCase("T") || newReplaceAll.equals("1");
+        return queue.validTrue(newReplaceAll);
     }
 
     private void doQueue() {
@@ -195,10 +197,11 @@ public class FindAndReplaceApp {
     }
 
     private void doAddNewOperation() {
+        input.nextLine();
         System.out.println("Enter new Find operation");
-        String newFind = input.next();
+        String newFind = input.nextLine();
         System.out.println("Enter new Replace operation");
-        String newReplace = input.next();
+        String newReplace = input.nextLine();
         System.out.println("Do you want to replace all [T], or just the first instance [F]?");
         String newReplaceAll = input.next();
         if (checkValid(newFind, newReplace, newReplaceAll)) {
@@ -218,10 +221,10 @@ public class FindAndReplaceApp {
                 System.out.println("Index is greater than queue length");
             } else {
                 System.out.println("Enter new Find operation");
-                String newFind = input.next();
+                String newFind = input.nextLine();
                 System.out.println("Enter new Replace operation:");
-                String newReplace = input.next();
-                System.out.println("Is this a replace-all operation?");
+                String newReplace = input.nextLine();
+                System.out.println("Is this a replace-all operation [T/F]?");
                 String newBool = input.next();
                 if (checkValid(newFind, newReplace, newBool)) {
                     queue.modifyItem(index, newFind, newReplace, newBool);
@@ -267,9 +270,9 @@ public class FindAndReplaceApp {
     private boolean checkValid(String newFind, String newReplace, String newReplaceAll) {
         try {
             operator.singular("The quick brown fox jumps over a lazy dog", newFind, newReplace, true);
-            if (newReplaceAll.equalsIgnoreCase("True") || newReplaceAll.equalsIgnoreCase("T") || newReplaceAll.equals("1")) {
+            if (queue.validTrue(newReplaceAll)) {
                 return true;
-            } else if (newReplaceAll.equalsIgnoreCase("False") || newReplaceAll.equalsIgnoreCase("F") || newReplaceAll.equals("0")) {
+            } else if (queue.validFalse(newReplaceAll)) {
                 return true;
             } else {
                 System.out.println("Invalid Replace All boolean, please try again:");
@@ -332,9 +335,10 @@ public class FindAndReplaceApp {
     }
 
     private void doAddNewString() {
+        input.nextLine();
         System.out.println("Enter a new string:");
         try {
-            stringLinkedList.add(input.next());
+            stringLinkedList.add(input.nextLine());
             System.out.println("String added.");
         } catch (Exception e) {
             System.out.println("Invalid string");
