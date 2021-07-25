@@ -112,19 +112,24 @@ public class FindAndReplaceApp {
     }
 
     private void doIndividualRun() {
-        doViewStrings();
-        System.out.println("What is the index of the string you want to operate on?");
-        int index = input.nextInt();
-        if (index >= stringLinkedList.size()) {
-            System.out.println("Index is larger than size of list");
-        } else {
-            try {
-                operator.iterator(stringLinkedList.get(index), queue);
-            } catch (Exception e) {
-                System.out.println("Unexpected error in iteration");
+        try {
+            doViewStrings();
+            System.out.println("What is the index of the string you want to operate on?");
+            int index = input.nextInt();
+            if (index >= stringLinkedList.size()) {
+                System.out.println("Index is larger than size of list");
+            } else {
+                try {
+                    operator.iterator(stringLinkedList.get(index), queue);
+                } catch (Exception e) {
+                    System.out.println("Unexpected error in iteration");
+                }
             }
+            doRun();
+        } catch (Exception e) {
+            System.out.println("Not an integer. ");
+            doRun();
         }
-        doRun();
     }
 
     private void doRunNewString() {
@@ -214,28 +219,37 @@ public class FindAndReplaceApp {
     }
 
     private void doEditOperation() {
-        System.out.println("What is the index of the item you would like to edit?");
-        int index = input.nextInt();
         try {
-            if (index >= queue.getLength()) {
-                System.out.println("Index is greater than queue length");
-            } else {
-                System.out.println("Enter new Find operation");
-                String newFind = input.nextLine();
-                System.out.println("Enter new Replace operation:");
-                String newReplace = input.nextLine();
-                System.out.println("Is this a replace-all operation [T/F]?");
-                String newBool = input.next();
-                if (checkValid(newFind, newReplace, newBool)) {
-                    queue.modifyItem(index, newFind, newReplace, newBool);
+            System.out.println("What is the index of the item you would like to edit?");
+            int index = input.nextInt();
+            try {
+                if (index >= queue.getLength()) {
+                    System.out.println("Index is greater than queue length");
                 } else {
-                    System.out.println("Invalid find and replace operation");
+                    doEditOperationHelper(index);
                 }
+            } catch (InvalidLengthException e) {
+                System.out.println("Queue is not of equal length");
             }
-        } catch (InvalidLengthException e) {
-            System.out.println("Queue is not of equal length");
+            doQueue();
+        } catch (Exception e) {
+            System.out.println("Not an integer. ");
+            doQueue();
         }
-        doQueue();
+    }
+
+    private void doEditOperationHelper(int index) throws InvalidLengthException {
+        System.out.println("Enter new Find operation");
+        String newFind = input.nextLine();
+        System.out.println("Enter new Replace operation:");
+        String newReplace = input.nextLine();
+        System.out.println("Is this a replace-all operation [T/F]?");
+        String newBool = input.next();
+        if (checkValid(newFind, newReplace, newBool)) {
+            queue.modifyItem(index, newFind, newReplace, newBool);
+        } else {
+            System.out.println("Invalid find and replace operation");
+        }
     }
 
     private void doDeleteOperation() {
@@ -322,14 +336,19 @@ public class FindAndReplaceApp {
     }
 
     private void doDeleteString() {
-        System.out.println("Enter index of string to delete");
-        int index = input.nextInt();
-        if (index >= stringLinkedList.size()) {
-            System.out.println("Index is larger than size of list");
-            doDeleteString();
-        } else {
-            stringLinkedList.remove(index);
-            System.out.println("String deleted");
+        try {
+            System.out.println("Enter index of string to delete");
+            int index = input.nextInt();
+            if (index >= stringLinkedList.size()) {
+                System.out.println("Index is larger than size of list");
+                doDeleteString();
+            } else {
+                stringLinkedList.remove(index);
+                System.out.println("String deleted");
+                doStrings();
+            }
+        } catch (Exception e) {
+            System.out.println("Not an integer. ");
             doStrings();
         }
     }
