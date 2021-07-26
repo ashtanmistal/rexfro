@@ -263,21 +263,28 @@ public class FindAndReplaceApp {
     }
 
     private void doDeleteOperation() {
-        System.out.println("Enter the index of the operation to be deleted:");
-        int index = input.nextInt();
         try {
-            if (index >= queue.getLength()) {
-                System.out.println("Index is greater than queue length");
-            } else {
-                queue.deleteItem(index);
-                System.out.println("Queue item deleted");
+            System.out.println("Enter the index of the operation to be deleted:");
+            int index = input.nextInt();
+            try {
+                if (index >= queue.getLength()) {
+                    System.out.println("Index is greater than queue length");
+                } else {
+                    queue.deleteItem(index);
+                    System.out.println("Queue item deleted");
+                }
+            } catch (InvalidLengthException e) {
+                System.out.println("Queue is not of equal length");
+            } catch  (InvalidIntegerException e) {
+                System.out.println("Invalid integer, integer is not within bounds");
             }
-        } catch (InvalidLengthException e) {
-            System.out.println("Queue is not of equal length");
-        } catch  (InvalidIntegerException e) {
-            System.out.println("Invalid integer, integer is not within bounds");
+            doQueue();
+        } catch (Exception e) {
+            System.out.println("Input is not an integer");
+            doQueue();
         }
-        doQueue();
+
+
     }
 
     private void doViewQueue() {
@@ -429,6 +436,5 @@ public class FindAndReplaceApp {
             System.out.println(input.nextLine());
         }
     }
-
 
 }
