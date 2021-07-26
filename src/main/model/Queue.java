@@ -26,6 +26,7 @@ public class Queue {
         replaceAllQueue.add(replaceAll);
     }
 
+    // getter; clauses omitted
     public Integer getLength() throws InvalidLengthException {
         if (findQueue.size() != replaceQueue.size() || replaceQueue.size() != replaceAllQueue.size()) {
             throw new InvalidLengthException();
@@ -40,10 +41,14 @@ public class Queue {
         return findQueue.remove(0);
     }
 
+    // modifies: this.replaceQueue
+    // effects: returns first element of replaceQueue and removes it from the queue
     public String getFirstReplace() {
         return replaceQueue.remove(0);
     }
 
+    // modifies: this.replaceAllQueue
+    // effects: returns first element of replaceAllQueue and removes it from the queue
     public Boolean getFirstBool() throws InvalidBooleanException {
         String replace = replaceAllQueue.remove(0);
         if (validTrue(replace)) {
@@ -55,6 +60,8 @@ public class Queue {
             throw new InvalidBooleanException();
         }
     }
+
+    // NOTE: Following 2 getters do not modify anything and are simple getters
 
     public String getFind(int i) throws InvalidLengthException {
         if (i >= getLength()) {
@@ -72,6 +79,7 @@ public class Queue {
         }
     }
 
+    // Effects: Converts the String (True, t, 1, etc) into a Boolean and returns it
     public Boolean getBool(int i) throws InvalidBooleanException, InvalidLengthException {
         if (i >= getLength()) {
             throw new InvalidLengthException();
@@ -88,6 +96,7 @@ public class Queue {
         }
     }
 
+    // Effects: Returns the boolean as a string
     public String getBoolString(int i) throws InvalidLengthException {
         if (i >= getLength()) {
             throw new InvalidLengthException();
@@ -108,10 +117,13 @@ public class Queue {
         }
     }
 
+    // effects: returns whether or not the queue is empty
     public Boolean isEmpty() throws Exception {
         return getLength() == 0;
     }
 
+    // Modifies: this
+    // Effects: Replaces item in index i with respective new find, replace, replaceAll strings
     public void modifyItem(Integer i, String newFind, String newReplace, String newAll) throws InvalidLengthException {
         if (i < getLength()) {
             findQueue.set(i, newFind);
@@ -122,13 +134,19 @@ public class Queue {
         }
     }
 
-
-    public void deleteItem(int i) {
-        findQueue.remove(i);
-        replaceQueue.remove(i);
-        replaceAllQueue.remove(i);
+    // Modifies: this
+    // Effects: Removes element of index i from the queue
+    public void deleteItem(int i) throws InvalidLengthException, InvalidIntegerException {
+        if (i >= getLength()) {
+            throw new InvalidIntegerException();
+        } else {
+            findQueue.remove(i);
+            replaceQueue.remove(i);
+            replaceAllQueue.remove(i);
+        }
     }
 
+    // Effects: Checks if the given string is a valid True boolean statement and returns True; false otherwise
     public boolean validTrue(String replace) {
         if (replace.equalsIgnoreCase("True")) {
             return true;
@@ -139,6 +157,7 @@ public class Queue {
         }
     }
 
+    // Effects: Checks if the given string is a valid False boolean statement and returns True, False otherwise
     public boolean validFalse(String replace) {
         if (replace.equalsIgnoreCase("False")) {
             return true;

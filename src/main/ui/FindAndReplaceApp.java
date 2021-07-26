@@ -2,6 +2,7 @@ package ui;
 
 import model.Operator;
 import model.Queue;
+import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 
 import java.io.File;
@@ -273,6 +274,8 @@ public class FindAndReplaceApp {
             }
         } catch (InvalidLengthException e) {
             System.out.println("Queue is not of equal length");
+        } catch  (InvalidIntegerException e) {
+            System.out.println("Invalid integer, integer is not within bounds");
         }
         doQueue();
     }

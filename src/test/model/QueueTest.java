@@ -141,11 +141,17 @@ class QueueTest {
     @Test
     public void testDeleteItem() {
         queue.addToQueue("Hello there", "Good Morning", "True");
-        queue.deleteItem(0);
         try {
-            assertTrue(queue.isEmpty());
-        } catch (Exception e) {
-            fail("Unexpected exception");
+            queue.deleteItem(0);
+            try {
+                assertTrue(queue.isEmpty());
+            } catch (Exception e) {
+                fail("Unexpected exception");
+            }
+        } catch (InvalidLengthException e) {
+            fail("Queue is not of same length");
+        } catch (InvalidIntegerException e) {
+            fail("Integer was not handled correctly");
         }
     }
 
@@ -291,6 +297,24 @@ class QueueTest {
             // all good
         } catch (InvalidLengthException e) {
             fail("Unexpected length issue");
+        }
+    }
+
+    @Test
+    public void testDeleteItemInvalidInteger() {
+        queue.addToQueue("23456y wh", "urthjfngc", "True");
+        try {
+            queue.deleteItem(7);
+            fail("Did not catch expected integer exception");
+        } catch (InvalidIntegerException e) {
+            // all good
+        } catch (InvalidLengthException e) {
+            fail(" The queue should be of the same size!");
+        }
+        try {
+            assertFalse(queue.isEmpty());
+        } catch (Exception e) {
+            fail("Caught unexpected error in length check");
         }
     }
 
