@@ -31,6 +31,7 @@ public class FindAndReplaceApp {
         while (keepGoing) {
             displayMenu();
             command = input.next();
+            input.nextLine();
             command = command.toLowerCase();
 
             if (command.equals("e")) {
@@ -67,7 +68,6 @@ public class FindAndReplaceApp {
                 break;
             default:
                 System.out.println("Invalid key selection");
-                input.nextLine();
                 displayMenu();
                 break;
         }
@@ -81,6 +81,7 @@ public class FindAndReplaceApp {
         System.out.println("\tm -> Manual find-and-replace...");
         System.out.println("\th -> Home");
         String command = input.next();
+        input.nextLine();
         processRunCommand(command);
     }
 
@@ -123,6 +124,7 @@ public class FindAndReplaceApp {
             doViewStrings();
             System.out.println("What is the index of the string you want to operate on?");
             int index = input.nextInt();
+            input.nextLine();
             if (index >= stringLinkedList.size()) {
                 System.out.println("Index is larger than size of list");
             } else {
@@ -141,7 +143,6 @@ public class FindAndReplaceApp {
 
     private void doRunNewString() {
         System.out.println("Enter the text to be operated on:");
-        input.nextLine();
         String text = input.nextLine();
         try {
             System.out.println(operator.iterator(text, queue));
@@ -152,7 +153,6 @@ public class FindAndReplaceApp {
     }
 
     private void doManualFindReplace() {
-        input.nextLine();
         System.out.println("Enter text:");
         String text = input.nextLine();
         System.out.println("Find:");
@@ -161,6 +161,7 @@ public class FindAndReplaceApp {
         String replace = input.nextLine();
         System.out.println("Replace All [t] or First Instance [f]:");
         String all = input.next();
+        input.nextLine();
         if (checkValid(find, replace, all)) {
             System.out.println(operator.singular(text, find, replace, toBool(all)));
         } else {
@@ -178,10 +179,12 @@ public class FindAndReplaceApp {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> add new operation");
         System.out.println("\te -> edit an operation");
+        System.out.println("\ts -> swap queue elements");
         System.out.println("\td -> delete an operation");
         System.out.println("\tv -> view queue");
         System.out.println("\th -> home");
         String command = input.next();
+        input.nextLine();
         processQueueCommand(command);
     }
 
@@ -193,31 +196,51 @@ public class FindAndReplaceApp {
             case "e":
                 doEditOperation();
                 break;
+            case "s":
+                doSwap();
+                break;
             case "d":
                 doDeleteOperation();
                 break;
             case "v":
                 doViewQueue();
-                doQueue();
-                break;
             case "h":
-                input.nextLine();
                 displayMenu();
                 break;
             default:
-                System.out.println("Invalid key selection");
                 doQueue();
         }
     }
 
+    private void doSwap() {
+        System.out.println("Please enter the index of the first element to swap:");
+        try {
+            int index1 = input.nextInt();
+            input.nextLine();
+            try {
+                System.out.println("Please enter the index of the second element to swap:");
+                int index2 = input.nextInt();
+                input.nextLine();
+                queue.swap(index1, index2);
+                System.out.println("Items swapped. ");
+            } catch (Exception e) {
+                System.out.println("Invalid integers, please try again");
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid integers, please try again");
+        } finally {
+            doQueue();
+        }
+    }
+
     private void doAddNewOperation() {
-        input.nextLine();
         System.out.println("Enter new Find operation");
         String newFind = input.nextLine();
         System.out.println("Enter new Replace operation");
         String newReplace = input.nextLine();
         System.out.println("Do you want to replace all [T], or just the first instance [F]?");
         String newReplaceAll = input.next();
+        input.nextLine();
         if (checkValid(newFind, newReplace, newReplaceAll)) {
             queue.addToQueue(newFind, newReplace, newReplaceAll);
         } else {
@@ -232,6 +255,7 @@ public class FindAndReplaceApp {
             doViewQueue();
             System.out.println("What is the index of the item you would like to edit?");
             int index = input.nextInt();
+            input.nextLine();
             try {
                 if (index >= queue.getLength()) {
                     System.out.println("Index is greater than queue length");
@@ -255,6 +279,7 @@ public class FindAndReplaceApp {
         String newReplace = input.nextLine();
         System.out.println("Is this a replace-all operation [T/F]?");
         String newBool = input.next();
+        input.nextLine();
         if (checkValid(newFind, newReplace, newBool)) {
             queue.modifyItem(index, newFind, newReplace, newBool);
         } else {
@@ -266,6 +291,7 @@ public class FindAndReplaceApp {
         try {
             System.out.println("Enter the index of the operation to be deleted:");
             int index = input.nextInt();
+            input.nextLine();
             try {
                 if (index >= queue.getLength()) {
                     System.out.println("Index is greater than queue length");
@@ -323,6 +349,7 @@ public class FindAndReplaceApp {
         System.out.println("\tv -> view strings");
         System.out.println("\th -> home");
         String command = input.next();
+        input.nextLine();
         processStringCommand(command);
     }
 
@@ -336,13 +363,10 @@ public class FindAndReplaceApp {
                 break;
             case "v":
                 doViewStrings();
-                doStrings();
-                break;
             case "h":
                 displayMenu();
                 break;
             default:
-                System.out.println("Invalid key selection");
                 doStrings();
         }
     }
@@ -357,6 +381,7 @@ public class FindAndReplaceApp {
         try {
             System.out.println("Enter index of string to delete");
             int index = input.nextInt();
+            input.nextLine();
             if (index >= stringLinkedList.size()) {
                 System.out.println("Index is larger than size of list");
                 doDeleteString();
@@ -367,13 +392,11 @@ public class FindAndReplaceApp {
             }
         } catch (Exception e) {
             System.out.println("Not an integer. ");
-            input.nextLine();
             doStrings();
         }
     }
 
     private void doAddNewString() {
-        input.nextLine();
         System.out.println("Enter a new string:");
         try {
             stringLinkedList.add(input.nextLine());
@@ -402,6 +425,7 @@ public class FindAndReplaceApp {
         System.out.println("\tr -> View README.md");
         System.out.println("\th -> Home");
         String command = input.next();
+        input.nextLine();
         processAboutCommand(command);
     }
 
