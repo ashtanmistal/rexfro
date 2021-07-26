@@ -31,26 +31,25 @@ Because I'm fed up with always having to turn the output of a WolframAlpha query
 
 ## User Stories
 
-- As a user, I want to be able to add a new find-and-replace operation to the list of operations \[done\]
-- As a user, I want to be able to view the current list of operations to be performed \[To be done with UI\]
-- As a user, I want to be able to modify a current operation before it is performed \[Done\]
-- As a user, I want to be able to delete a current operation, preventing it from being performed \[Done\]
-- As a user, I want to be able to re-order the current list of operations before they are performed \[\done\]
-- As a user, I want to be able to choose whether a given operation is to be performed all at once, or just the first instance \[done\]
-- As a user, I want to be able to perform a find-and-replace operation list on a given piece of text \[done\]
-- As a user, I want to be able to see the post-operation piece of text \[UI\]
-- As a user, I want to be able to perform the same consecutive find-and-replace operations on another piece of text \[Done\]
-- As a user, I want to be able to edit a current list of operations (User Stories 1 to 7 inclusive) prior to another operation \[Done\]
+- As a user, I want to be able to add a new find-and-replace operation to the list of operations [done]
 
-\[UI\]
+- As a user, I want to be able to modify a current operation before it is performed [Done]
+- As a user, I want to be able to delete a current operation, preventing it from being performed [Done]
+- As a user, I want to be able to re-order the current list of operations before they are performed [done]
+- As a user, I want to be able to choose whether a given operation is to be performed all at once, or just the first instance [done]
+- As a user, I want to be able to perform a find-and-replace operation list on a given piece of text [done]
+- As a user, I want to be able to perform the same consecutive find-and-replace operations on another piece of text [Done]
+- As a user, I want to be able to edit a current list of operations prior to another operation [Done]
 
-- As a user, I want to be able to create a new Queue
+### UI Related User Stories
+
+- As a user, I want to be able to create a new Queue [Done]
 - As a user, I want to be able to add a new Find operation to the queue, and 
-    - add Replace and ReplaceAll operations immediately after
-- As a user, I want to ensure that the find, replace, and replaceAll inputs are legally valid before performing on a piece of text
-- As a user, I do not want to be able to quit while in the middle of adding 3 operations
-    - Or to initialize Find and Replace as "" and ReplaceAll as "T" before prompting the user, to ensure that they remain the same length if the application is quit
-- As a user, I want to be able to input the string to be performed on
-- As a user, I want to be able to see the string post-operation
-- As a user, I want to be able to choose whether to perform the same queue on multiple strings automatically, or one at a time
-- As a user, I want to be able to paste in another string (and perform on it) after performing on one
+    - add Replace and ReplaceAll operations immediately after [Done]
+- As a user, I want to ensure that the find, replace, and replaceAll inputs are legally valid before performing on a piece of text [Done]
+- As a user, I do not want to be able to quit while in the middle of adding operations to ensure Queue elements remain the same length[Done]
+- As a user, I want to be able to input the string to be performed on [Done]
+- As a user, I want to be able to see the string post-operation [Done]
+- As a user, I want to be able to view the current list of operations to be performed [Done]
+- As a user, I want to be able to choose whether to perform the same queue on multiple strings automatically, or one at a time [Done]
+- As a user, I want to be able to paste in another string (and perform on it) after performing on one [Done]
