@@ -53,3 +53,14 @@ Because I'm fed up with always having to turn the output of a WolframAlpha query
 - As a user, I want to be able to view the current list of operations to be performed [Done]
 - As a user, I want to be able to choose whether to perform the same queue on multiple strings automatically, or one at a time [Done]
 - As a user, I want to be able to paste in another string (and perform on it) after performing on one [Done]
+
+### Project Phase 2 User Stories
+
+- As a user, I want to be able to load a queue from a .json file
+- As a user, I want to be able to load a queue from a .csv or .tsv file
+- As a user, I want to be able to load a .txt, .md, or .tex file as a text file to the list of strings to operate upon
+- As a user, I want to be able to save a current queue to a .json, .csv, or .tsv file
+- As a user, I want to be able to save the output of an operated string to a new file, or overwrite the existing corresponding file
+- As a user, I want to still be able to directly edit an operation within a loaded queue
+- As a user, I want to be able to "save all" strings to individual new text files through a numbering system:
+    - "FROP_[today's date and time]_[index of string in list].txt", where FROP stands for "Find and Replace Operator"
