@@ -5,6 +5,7 @@ import model.Queue;
 import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
@@ -43,7 +44,7 @@ public class FindAndReplaceApp {
         System.out.println("Process finished");
     }
 
-    private void displayMenu() {
+    public void displayMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\tq -> Queue...");
         System.out.println("\ts -> Strings...");
@@ -68,7 +69,6 @@ public class FindAndReplaceApp {
                 break;
             default:
                 System.out.println("Invalid key selection");
-                displayMenu();
                 break;
         }
     }
@@ -100,7 +100,6 @@ public class FindAndReplaceApp {
                 doManualFindReplace();
                 break;
             case "h":
-                displayMenu();
                 break;
             default:
                 System.out.println("Invalid key selection");
@@ -175,7 +174,46 @@ public class FindAndReplaceApp {
         return queue.validTrue(newReplaceAll);
     }
 
+
     private void doQueue() {
+        System.out.println("\nSelect from:");
+        System.out.println("\tc -> Current queue...");
+        System.out.println("\tl -> Load queue...");
+        System.out.println("\ts -> Save queue...");
+        System.out.println("\th -> home");
+        String command = input.next();
+        input.nextLine();
+        processQueueCommand(command);
+    }
+
+    private void processQueueCommand(String command) {
+        switch (command) {
+            case "c":
+                doThisQueue();
+                break;
+            case "l":
+                doLoadQueue();
+                break;
+            case "s":
+                doSaveQueue();
+                break;
+            case "h":
+                break;
+            default:
+                doQueue();
+        }
+    }
+
+
+    private void doLoadQueue() {
+        // TODO: Finish this and other UI file stuffs
+
+    }
+
+    private void doSaveQueue() {
+    }
+
+    private void doThisQueue() {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> add new operation");
         System.out.println("\te -> edit an operation");
@@ -185,10 +223,10 @@ public class FindAndReplaceApp {
         System.out.println("\th -> home");
         String command = input.next();
         input.nextLine();
-        processQueueCommand(command);
+        processThisQueueCommand(command);
     }
 
-    private void processQueueCommand(String command) {
+    private void processThisQueueCommand(String command) {
         switch (command) {
             case "a":
                 doAddNewOperation();
@@ -205,10 +243,9 @@ public class FindAndReplaceApp {
             case "v":
                 doViewQueue();
             case "h":
-                displayMenu();
                 break;
             default:
-                doQueue();
+                doThisQueue();
         }
     }
 
@@ -229,7 +266,7 @@ public class FindAndReplaceApp {
         } catch (Exception e) {
             System.out.println("Invalid integers, please try again");
         } finally {
-            doQueue();
+            doThisQueue();
         }
     }
 
@@ -247,7 +284,7 @@ public class FindAndReplaceApp {
             System.out.println("Invalid find and replace operation");
             doAddNewOperation();
         }
-        doQueue();
+        doThisQueue();
     }
 
     private void doEditOperation() {
@@ -269,7 +306,7 @@ public class FindAndReplaceApp {
             System.out.println("Not an integer. ");
             input.nextLine();
         }
-        doQueue();
+        doThisQueue();
     }
 
     private void doEditOperationHelper(int index) throws InvalidLengthException {
@@ -304,10 +341,10 @@ public class FindAndReplaceApp {
             } catch  (InvalidIntegerException e) {
                 System.out.println("Invalid integer, integer is not within bounds");
             }
-            doQueue();
+            doThisQueue();
         } catch (Exception e) {
             System.out.println("Input is not an integer");
-            doQueue();
+            doThisQueue();
         }
 
 
@@ -364,7 +401,6 @@ public class FindAndReplaceApp {
             case "v":
                 doViewStrings();
             case "h":
-                displayMenu();
                 break;
             default:
                 doStrings();
@@ -435,11 +471,9 @@ public class FindAndReplaceApp {
                 doVisitReadMe();
                 break;
             case "h":
-                displayMenu();
                 break;
             default:
                 System.out.println("Invalid key selection, returning home...");
-                displayMenu();
                 break;
         }
     }
