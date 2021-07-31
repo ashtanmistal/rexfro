@@ -1,13 +1,17 @@
 package model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 import model.exceptions.InvalidBooleanException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class Queue {
+public class Queue  implements Writable {
     // fields go here
     private final LinkedList<String> findQueue = new LinkedList<>();
     private final LinkedList<String> replaceQueue = new LinkedList<>();
@@ -168,4 +172,77 @@ public class Queue {
         }
     }
 
+    private int getLengthSafe() {
+        try {
+            return getLength();
+        } catch (InvalidLengthException e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Queue", "Queue");
+        json.put("Find operations", findToJson());
+        json.put("Replace operations", replaceToJson());
+        json.put("Replace All operations", replaceAllToJson());
+        return json;
+    }
+
+    // EFFECTS: returns find operations in the queue as a JSON array
+    private JSONArray findToJson() {
+        JSONArray jsonarray = new JSONArray();
+
+        for (int i = 0; i < getLengthSafe(); i++) {
+            try {
+                jsonarray.put(getFind(i));
+            } catch (InvalidLengthException e) {
+                jsonarray.put(""); // default case
+            }
+        }
+        return jsonarray;
+    }
+
+    // EFFECTS: returns replace operations in the queue as a JSON array
+    private JSONArray replaceToJson() {
+        JSONArray jsonarray = new JSONArray();
+
+        for (int i = 0; i < getLengthSafe(); i++) {
+            try {
+                jsonarray.put(getReplace(i));
+            } catch (InvalidLengthException e) {
+                jsonarray.put(""); // default case
+            }
+        }
+        return jsonarray;
+    }
+
+    // EFFECTS: returns find operations in the queue as a JSON array
+    private JSONArray replaceAllToJson() {
+        JSONArray jsonarray = new JSONArray();
+        for (int i = 0; i < getLengthSafe(); i++) {
+            try {
+                jsonarray.put(getBoolString(i));
+            } catch (InvalidLengthException e) {
+                jsonarray.put("true"); // default case
+            }
+        }
+        return jsonarray;
+    }
+
+    // NOTE: Above default cases ensure that no operations get performed for these default cases
+
+    // THE FOLLOWING METHODS ARE TO ONLY BE USED WITH JSON FILES
+    public void addToFindQueue(String str) {
+        findQueue.add(str);
+    }
+
+    public void addToReplaceQueue(String str) {
+        replaceQueue.add(str);
+    }
+
+    public void addToReplaceAllQueue(String str) {
+        replaceAllQueue.add(str);
+    }
 }
