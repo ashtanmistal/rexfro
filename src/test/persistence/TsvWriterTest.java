@@ -2,21 +2,22 @@ package persistence;
 
 import model.Queue;
 import model.exceptions.InvalidBooleanException;
+import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class JsonWriterTest extends JsonTest {
-
+public class TsvWriterTest {
 
     @Test
     void testWriterInvalidFile() {
         try {
             Queue queue = new Queue();
-            JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
+            TsvWriter writer = new TsvWriter("./data/my\0illegal:fileName.tsv");
             writer.open();
             fail("IOException was expected");
         } catch (IOException e) {
@@ -28,14 +29,14 @@ public class JsonWriterTest extends JsonTest {
     void testWriterEmptyQueue() {
         try {
             Queue queue = new Queue();
-            JsonWriter writer = new JsonWriter("./data/testWriterEmptyQueue.json");
+            TsvWriter writer = new TsvWriter("./data/testWriterEmptyQueue.tsv");
             writer.open();
             writer.write(queue);
             writer.close();
-            JsonReader reader = new JsonReader("./data/testWriterEmptyQueue.json");
+            CsvReader reader = new CsvReader("./data/testWriterEmptyQueue.tsv");
             queue = reader.read();
             assertEquals(0, queue.getLength());
-        } catch (IOException | InvalidLengthException e) {
+        } catch (IOException | InvalidLengthException | InvalidIntegerException e) {
             fail("Exception should not have been thrown");
         }
     }
@@ -46,12 +47,12 @@ public class JsonWriterTest extends JsonTest {
             Queue queue = new Queue();
             queue.addToQueue("Find0", "Replace0", "T");
             queue.addToQueue("find1", "replace1", "f");
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralQueue.json");
+            TsvWriter writer = new TsvWriter("./data/testWriterGeneralQueue.tsv");
             writer.open();
             writer.write(queue);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralQueue.json");
+            TsvReader reader = new TsvReader("./data/testWriterGeneralQueue.tsv");
             queue = reader.read();
             assertEquals(2, queue.getLength());
             assertEquals("Find0", queue.getFind(0));
@@ -63,7 +64,7 @@ public class JsonWriterTest extends JsonTest {
             assertTrue(queue.getBool(0));
             assertFalse(queue.getBool(1));
 
-        } catch (IOException | InvalidLengthException | InvalidBooleanException e) {
+        } catch (IOException | InvalidLengthException | InvalidBooleanException | InvalidIntegerException e) {
             fail("Should not have caught error");
         }
     }

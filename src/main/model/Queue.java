@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 import model.exceptions.InvalidBooleanException;

@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public class JsonReader {
-    private String source;
+    private final String source;
 
     // EFFECTS: constructs reader to read from source file
     public JsonReader(String source) {
@@ -37,7 +37,6 @@ public class JsonReader {
     }
 
     private Queue parseQueue(JSONObject jsonObject) {
-        String name = jsonObject.getString("Queue");
         Queue queue = new Queue();
         addElements(queue, jsonObject);
         return queue;

@@ -16,7 +16,7 @@ public class JsonReaderTest extends JsonTest{
     void testReaderNonExistentFile() {
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
-            Queue queue = reader.read();
+            reader.read();
             fail("IOException expected");
         } catch (IOException e) {
             // all good
@@ -24,7 +24,7 @@ public class JsonReaderTest extends JsonTest{
     }
 
     @Test
-    void testReaderEmptyWorkRoom() {
+    void testReaderEmptyQueue() {
         JsonReader reader = new JsonReader("./data/testReaderEmptyQueue.json");
         try {
             Queue queue = reader.read();
