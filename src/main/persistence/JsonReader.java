@@ -48,18 +48,15 @@ public class JsonReader {
         JSONArray jsonArrayReplace = jsonObject.getJSONArray("Replace operations");
         JSONArray jsonArrayBool = jsonObject.getJSONArray("Replace All operations");
         for (Object json : jsonArrayFind) {
-            JSONObject nextFind = (JSONObject) json;
-            queue.addToFindQueue(nextFind.toString());
+            queue.addToFindQueue(json.toString());
         }
 
         for (Object json : jsonArrayReplace) {
-            JSONObject nextReplace = (JSONObject) json;
-            queue.addToReplaceQueue(nextReplace.toString());
+            queue.addToReplaceQueue(json.toString());
         }
 
         for (Object json : jsonArrayBool) {
-            JSONObject nextBool = (JSONObject) json;
-            queue.addToReplaceAllQueue(nextBool.toString());
+            queue.addToReplaceAllQueue(json.toString());
         }
     }
 

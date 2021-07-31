@@ -1,0 +1,15 @@
+{
+    "Replace operations": [
+        "Replace0",
+        "replace1"
+    ],
+    "Replace All operations": [
+        "T",
+        "f"
+    ],
+    "Queue": "Queue",
+    "Find operations": [
+        "Find0",
+        "find1"
+    ]
+}

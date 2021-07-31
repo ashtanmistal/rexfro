@@ -1,0 +1,18 @@
+{
+  "Replace operations": [
+    "Replace0",
+    "replace1",
+    "r n rr nrn "
+  ],
+  "Replace All operations": [
+    "T",
+    "f",
+    "t"
+  ],
+  "Queue": "Queue",
+  "Find operations": [
+    "Find0",
+    "find1",
+    "r"
+  ]
+}
