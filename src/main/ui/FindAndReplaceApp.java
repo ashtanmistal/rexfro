@@ -144,10 +144,11 @@ public class FindAndReplaceApp {
     private void doSaveStringAll(LinkedList<String> outputAll) {
         System.out.println("Please enter the folder to save the operated texts to: ");
         String ou = input.nextLine();
-        String dt = String.valueOf(java.time.Clock.systemUTC().instant());
+        String dt = operator.singular(String.valueOf(java.time.Clock.systemDefaultZone().instant()),
+                ":", "_", true);
         int totalCount = outputAll.size();
         for (String s : outputAll) {
-            StringWriter w = new StringWriter(ou + "FROP_" + dt + "(" + outputAll.indexOf(s) + ")");
+            StringWriter w = new StringWriter(ou + "FROP_" + dt + "(" + outputAll.indexOf(s) + ").txt");
             try {
                 w.open();
                 w.write(s);
@@ -156,7 +157,7 @@ public class FindAndReplaceApp {
                 totalCount -= 1;
             }
         }
-        System.out.println("Files saved: " + ou + "FROP_" + dt + "(" + 0 + ") and " + (totalCount - 1) + " more. "
+        System.out.println("Files saved: " + ou + "FROP_" + dt + "(" + 0 + ").txt and " + (totalCount - 1) + " more. "
                  + (outputAll.size() - totalCount) + " files saved incorrectly");
     }
 

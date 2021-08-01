@@ -62,4 +62,4 @@ Because I'm fed up with always having to turn the output of a WolframAlpha query
 - As a user, I want to be able to save the output of an operated string to a new file, or overwrite the existing corresponding file [Done]
 - As a user, I want to still be able to directly edit an operation within a loaded queue [Done]
 - As a user, I want to be able to "save all" strings to individual new text files through a numbering system:
-    - "FROP_[today's date and time]_[index of string in list].txt", where FROP stands for "Find and Replace Operator"
+    - "FROP_[today's date and time]_[index of string in list].txt", where FROP stands for "Find and Replace Operator" [Done]
