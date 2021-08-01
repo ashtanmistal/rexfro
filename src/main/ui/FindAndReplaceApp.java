@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 // Code for UI somewhat adapted from Teller App (from Edx)
+// Represents the FindAndReplace Application
 public class FindAndReplaceApp {
     private Scanner input;
     private Queue queue;
@@ -25,6 +26,8 @@ public class FindAndReplaceApp {
         runFindAndReplace();
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     private void runFindAndReplace() {
         boolean keepGoing = true;
         String command;
@@ -46,6 +49,7 @@ public class FindAndReplaceApp {
         System.out.println("Process finished");
     }
 
+    // EFFECTS: displays menu of options to user
     public void displayMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\tq -> Queue...");
@@ -55,6 +59,8 @@ public class FindAndReplaceApp {
         System.out.println("\te -> exit application");
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processCommand(String command) {
         switch (command) {
             case "q":
@@ -75,6 +81,7 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: displays menu of options to user
     private void doRun() {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> Run on all strings");
@@ -87,6 +94,8 @@ public class FindAndReplaceApp {
         processRunCommand(command);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processRunCommand(String command) {
         switch (command) {
             case "a":
@@ -109,6 +118,9 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Runs the Operator on all Strings and the Queue and prompts the user
+    //          if they want to save the operated-upon strings
     private void doRunQueueAll() {
         LinkedList<String> outputAll = new LinkedList<>();
         for (String s: stringLinkedList) {
@@ -128,6 +140,7 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: Prompts the user to select the folder with which to save the operated texts to
     private void doSaveStringAll(LinkedList<String> outputAll) {
         System.out.println("Please enter the folder to save the operated texts to: ");
         String ou = input.nextLine();
@@ -147,6 +160,9 @@ public class FindAndReplaceApp {
                  + (outputAll.size() - totalCount) + " files saved incorrectly");
     }
 
+    // MODIFIES: this
+    // EFFECTS: Prompts the user to select the index of the string to operate upon, runs the Operator on said string
+    //          and prompts the user if they want to save the operated-upon String
     private void doIndividualRun() {
         try {
             System.out.println("What is the index of the string you want to operate on?");
@@ -173,6 +189,7 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: Prompts the user to select the location and filename to save the string to and saves the string
     private void doSaveString(String output) {
         System.out.println("\nEnter the location and filename to save the string to: ");
         String location = input.nextLine();
@@ -191,6 +208,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Prompts the user to enter the text to be operated upon
     private void doRunNewString() {
         System.out.println("Enter the text to be operated on:");
         String text = input.nextLine();
@@ -202,6 +221,9 @@ public class FindAndReplaceApp {
         doRun();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Prompts the user to enter the text to be operated upon, and the find + replace + replaceAll operations
+    //          and then promts the user if they want to save the output
     private void doManualFindReplace() {
         System.out.println("Enter text:");
         String text = input.nextLine();
@@ -227,11 +249,13 @@ public class FindAndReplaceApp {
         doRun();
     }
 
+    // EFFECTS: Converts a string to boolean True if it is valid
     private Boolean toBool(String newReplaceAll) {
         return queue.validTrue(newReplaceAll);
     }
 
 
+    // EFFECTS: displays menu of options to user
     private void doQueue() {
         System.out.println("\nSelect from:");
         System.out.println("\tc -> Current queue...");
@@ -243,6 +267,8 @@ public class FindAndReplaceApp {
         processQueueCommand(command);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processQueueCommand(String command) {
         switch (command) {
             case "c":
@@ -262,6 +288,7 @@ public class FindAndReplaceApp {
     }
 
 
+    // EFFECTS: Displays menu of options to user
     private void doLoadQueue() {
         System.out.println("\nLoad a:");
         System.out.println("\tc -> .csv file");
@@ -274,6 +301,8 @@ public class FindAndReplaceApp {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processLoadQueueCommand(String command) {
         switch (command) {
             case "c":
@@ -292,6 +321,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Loads Queue from file
     private void doReadCsv() {
         System.out.println("\nEnter the location and filename to load:");
         String filename = input.next();
@@ -307,6 +338,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Loads Queue from file
     private void doReadTsv() {
         System.out.println("\nEnter the location and filename to load:");
         String filename = input.next();
@@ -322,6 +355,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Loads Queue from file
     private void doReadJson() {
         System.out.println("\nEnter the location and filename to load:");
         String filename = input.next();
@@ -335,6 +370,7 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: displays menu of options to user
     private void doSaveQueue() {
         System.out.println("\nSave as:");
         System.out.println("\tc -> .csv file");
@@ -346,6 +382,8 @@ public class FindAndReplaceApp {
         processSaveQueueCommand(command);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processSaveQueueCommand(String command) {
         switch (command) {
             case "c":
@@ -365,6 +403,7 @@ public class FindAndReplaceApp {
     }
 
 
+    // EFFECTS: Saves the Queue to file
     private void doSaveTsv() {
         try {
             System.out.println("\nEnter the location and filename to save:");
@@ -382,6 +421,7 @@ public class FindAndReplaceApp {
     }
 
 
+    // EFFECTS: Saves the Queue to file
     private void doSaveCsv() {
         try {
             System.out.println("\nEnter the location and filename to save:");
@@ -398,6 +438,7 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: Saves the Queue to file
     private void doSaveJson() {
         try {
             System.out.println("\nEnter the location and filename to save:");
@@ -414,6 +455,7 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: displays menu of options to user
     private void doThisQueue() {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> add new operation");
@@ -427,6 +469,8 @@ public class FindAndReplaceApp {
         processThisQueueCommand(command);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processThisQueueCommand(String command) {
         switch (command) {
             case "a":
@@ -451,6 +495,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Swaps two elements in the queue
     private void doSwap() {
         System.out.println("Please enter the index of the first element to swap:");
         try {
@@ -472,6 +518,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: This
+    // EFFECTS: Adds an operation to the Queue
     private void doAddNewOperation() {
         System.out.println("Enter new Find operation");
         String newFind = input.nextLine();
@@ -489,6 +537,8 @@ public class FindAndReplaceApp {
         doThisQueue();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Edits an operation in the queue
     private void doEditOperation() {
         try {
             doViewQueue();
@@ -511,6 +561,7 @@ public class FindAndReplaceApp {
         doThisQueue();
     }
 
+    // Helper function for above function (it goes over 25 lines otherwise)
     private void doEditOperationHelper(int index) throws InvalidLengthException {
         System.out.println("Enter new Find operation");
         String newFind = input.nextLine();
@@ -526,6 +577,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Deletes an operation from the queue in a given index
     private void doDeleteOperation() {
         try {
             System.out.println("Enter the index of the operation to be deleted:");
@@ -552,6 +605,7 @@ public class FindAndReplaceApp {
 
     }
 
+    // EFFECTS: Prints the Queue to the user
     private void doViewQueue() {
         System.out.println("Printing queue...");
         try {
@@ -564,6 +618,7 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: Checks if an operation is valid (Useful for regex)
     private boolean checkValid(String newFind, String newReplace, String newReplaceAll) {
         try {
             operator.singular("The quick brown fox jumps over a lazy dog", newFind, newReplace, true);
@@ -581,6 +636,7 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: displays menu of options to user
     private void doStrings() {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> Add new string");
@@ -594,6 +650,8 @@ public class FindAndReplaceApp {
         processStringCommand(command);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processStringCommand(String command) {
         switch (command) {
             case "a":
@@ -614,6 +672,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Loads a string from a file
     private void doLoadString() {
         try {
             System.out.println("\nEnter the location and filename to load:");
@@ -628,12 +688,15 @@ public class FindAndReplaceApp {
         }
     }
 
+    // EFFECTS: Prints out strings
     private void doViewStrings() {
         for (String s : stringLinkedList) {
             System.out.println(s);
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Deletes a string from the list
     private void doDeleteString() {
         try {
             System.out.println("Enter index of string to delete");
@@ -653,6 +716,8 @@ public class FindAndReplaceApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Adds a new string to the list
     private void doAddNewString() {
         System.out.println("Enter a new string:");
         try {
@@ -664,13 +729,16 @@ public class FindAndReplaceApp {
         doStrings();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Creates necessary objects for application
     private void init() {
         input = new Scanner(System.in);
         queue = new Queue();
         operator = new Operator();
         stringLinkedList = new LinkedList<>();
     }
-    
+
+    // EFFECTS: displays About page to user and displays menu
     private void doAbout() {
         System.out.println("Welcome to the Find and Replace Operator, developed"
                 + " by Ashtan Mistal. Please note: \n \t - Currently, only strings "
@@ -686,6 +754,8 @@ public class FindAndReplaceApp {
         processAboutCommand(command);
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processAboutCommand(String command) {
         switch (command) {
             case "r":
@@ -699,7 +769,8 @@ public class FindAndReplaceApp {
         }
     }
 
-// File reading abilities from https://stackoverflow.com/a/39026036
+    // File reading abilities from https://stackoverflow.com/a/39026036
+    // EFFECTS: Prints out readme.md file to user
     private void doVisitReadMe() {
         Scanner input = null;
         try {
@@ -715,5 +786,4 @@ public class FindAndReplaceApp {
             System.out.println(input.nextLine());
         }
     }
-
 }

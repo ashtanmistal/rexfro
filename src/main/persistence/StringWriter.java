@@ -3,6 +3,7 @@ package persistence;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+// Represents a writer that writes a string to file
 public class StringWriter {
 
     private PrintWriter writer;

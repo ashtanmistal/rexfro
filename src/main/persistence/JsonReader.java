@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+// Represents a reader that reads a Queue from JSON data stored in a file
+// ADAPTED FROM: JsonSerializationDemo project on Edx
 public class JsonReader {
     private final String source;
 
@@ -18,6 +20,9 @@ public class JsonReader {
         this.source = source;
     }
 
+
+    // EFFECTS: Reads queue from file and returns it;
+    // throws IOException if an error occurs reading data from file
     public Queue read() throws IOException {
 
         String jsonData = readFile(source);
@@ -25,7 +30,7 @@ public class JsonReader {
         return parseQueue(jsonObject);
     }
 
-    // EFFECTS: reads source file as string and returns it
+    // EFFECTS: reads source file as string and returns it;
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
@@ -36,12 +41,15 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    // EFFECTS: Parses queue from JSON object and returns it
     private Queue parseQueue(JSONObject jsonObject) {
         Queue queue = new Queue();
         addElements(queue, jsonObject);
         return queue;
     }
 
+    // MODIFIES: queue
+    // EFFECTS: Parses elements from JSON object and adds them individually to the Queue
     private void addElements(Queue queue, JSONObject jsonObject) {
         JSONArray jsonArrayFind = jsonObject.getJSONArray("Find operations");
         JSONArray jsonArrayReplace = jsonObject.getJSONArray("Replace operations");

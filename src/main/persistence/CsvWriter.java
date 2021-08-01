@@ -5,13 +5,15 @@ import model.exceptions.InvalidLengthException;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
+// Represents a writer that writes CSV representation of Queue to file
+// Adapted from JsonSerializationDemo project on Edx
 public class CsvWriter {
 
     private PrintWriter writer;
     private final String destination;
 
+    // EFFECTS: constructs writer to write to destination file
     public CsvWriter(String destination) {
         this.destination = destination;
     }
@@ -23,6 +25,8 @@ public class CsvWriter {
         writer = new PrintWriter(destination);
     }
 
+    // MODIFIES: this
+    // EFFECTS: writes CSV representation of Queue to file
     public void write(Queue queue) throws InvalidLengthException {
         for (int i = 0; i < queue.getLength(); i++) {
             writer.write(queue.getFind(i) + ","

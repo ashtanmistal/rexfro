@@ -10,6 +10,9 @@ import persistence.Writable;
 import java.util.Collections;
 import java.util.LinkedList;
 
+// Class level comments: This provides the methods for operating on a Queue, including getters, modifiers, and
+// saving to JSON capabilities. a Queue holds the operations of Find, Replace, and the boolean replaceAll in individual
+// linked lists.
 public class Queue  implements Writable {
     // fields go here
     private final LinkedList<String> findQueue = new LinkedList<>();
@@ -17,6 +20,8 @@ public class Queue  implements Writable {
     private final LinkedList<String> replaceAllQueue = new LinkedList<>();
 
     // Constructor
+    // Modifies: this
+    // EFFECTS: Constructs Queue
     public Queue() {
     }
 
@@ -171,6 +176,8 @@ public class Queue  implements Writable {
         }
     }
 
+    // EFFECTS: Returns the length if the length is safe and does not throw an exception; if an exception is thrown,
+    //          return 0 as the length (this allows the JSON savers to not save the queue at all if it is invalid)
     private int getLengthSafe() {
         try {
             return getLength();
@@ -178,6 +185,7 @@ public class Queue  implements Writable {
             return 0;
         }
     }
+
 
     @Override
     public JSONObject toJson() {
@@ -217,7 +225,7 @@ public class Queue  implements Writable {
         return jsonarray;
     }
 
-    // EFFECTS: returns find operations in the queue as a JSON array
+    // EFFECTS: returns replaceAll operations in the queue as a JSON array
     private JSONArray replaceAllToJson() {
         JSONArray jsonarray = new JSONArray();
         for (int i = 0; i < getLengthSafe(); i++) {
@@ -230,9 +238,11 @@ public class Queue  implements Writable {
         return jsonarray;
     }
 
-    // NOTE: Above default cases ensure that no operations get performed for these default cases
+    // NOTE: Above default cases ensure that no operations get performed for these default cases (getLengthSafe)
 
-    // THE FOLLOWING METHODS ARE TO ONLY BE USED WITH JSON FILES
+    // THE FOLLOWING METHODS ARE TO ONLY BE USED WITH JSON FILES AND HAVE THE SAME MODIFIES / EFFECTS CLAUSES
+    // MODIFIES: this
+    // EFFECTS: Adds the String to the corresponding queue
     public void addToFindQueue(String str) {
         findQueue.add(str);
     }

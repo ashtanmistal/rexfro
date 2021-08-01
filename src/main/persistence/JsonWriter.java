@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 // Writer functionality adapted from JsonSerializationDemo project on Edx
+// Represents a writer that writes JSON representation of Queue to file
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;

@@ -1,6 +1,7 @@
 package model;
 
-
+// Class level comments: This holds the methods to operate on a singular piece of text as well as to operate an entire
+// queue on a given piece of text
 public class Operator {
 
     public Operator() {

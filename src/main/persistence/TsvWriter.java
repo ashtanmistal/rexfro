@@ -5,13 +5,14 @@ import model.exceptions.InvalidLengthException;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
+// Represents a writer that writes TSV representation of Queue to file
 public class TsvWriter {
 
     private PrintWriter writer;
     private final String destination;
 
+    // EFFECTS: Constructs writer to write to destination file
     public TsvWriter(String destination) {
         this.destination = destination;
     }
@@ -23,6 +24,8 @@ public class TsvWriter {
         writer = new PrintWriter(destination);
     }
 
+    // MODIFIES: this
+    // EFFECTS: writes TSV representation of Queue to file
     public void write(Queue queue) throws InvalidLengthException {
         for (int i = 0; i < queue.getLength(); i++) {
             writer.write(queue.getFind(i) + "\t"
