@@ -56,9 +56,9 @@ Because I'm fed up with always having to turn the output of a WolframAlpha query
 
 ### Project Phase 2 User Stories
 
-- As a user, I want to be able to load a queue from a .json, .csv, or .tsv file
+- As a user, I want to be able to load a queue from a .json, .csv, or .tsv file [Done]
 - As a user, I want to be able to load a .txt, .md, or .tex file as a text file to the list of strings to operate upon
-- As a user, I want to be able to save a current queue to a .json, .csv, or .tsv file
+- As a user, I want to be able to save a current queue to a .json, .csv, or .tsv file [Done]
 - As a user, I want to be able to save the output of an operated string to a new file, or overwrite the existing corresponding file
 - As a user, I want to still be able to directly edit an operation within a loaded queue [Done]
 - As a user, I want to be able to "save all" strings to individual new text files through a numbering system:

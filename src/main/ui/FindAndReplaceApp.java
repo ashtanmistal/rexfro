@@ -4,10 +4,12 @@ import model.Operator;
 import model.Queue;
 import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
+import persistence.*;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -206,11 +208,155 @@ public class FindAndReplaceApp {
 
 
     private void doLoadQueue() {
-        // TODO: Finish this and other UI file stuffs
+        System.out.println("\nLoad a:");
+        System.out.println("\tc -> .csv file");
+        System.out.println("\tt -> .tsv file");
+        System.out.println("\tj -> .json file");
+        System.out.println("\th -> Cancel and return home");
+        String command = input.next();
+        input.nextLine();
+        processLoadQueueCommand(command);
 
     }
 
+    private void processLoadQueueCommand(String command) {
+        switch (command) {
+            case "c":
+                doReadCsv();
+                break;
+            case "t":
+                doReadTsv();
+                break;
+            case "j":
+                doReadJson();
+                break;
+            case "h":
+                break;
+            default:
+                doLoadQueue();
+        }
+    }
+
+    private void doReadCsv() {
+        System.out.println("\nEnter the location and filename to load:");
+        String filename = input.next();
+        input.nextLine();
+        CsvReader reader = new CsvReader(filename);
+        try {
+            queue = reader.read();
+            System.out.println("Successfully loaded queue");
+        } catch (InvalidIntegerException e) {
+            System.out.println("Invalid .csv file, mismatched rows");
+        } catch (IOException e) {
+            System.out.println("Invalid file name");
+        }
+    }
+
+    private void doReadTsv() {
+        System.out.println("\nEnter the location and filename to load:");
+        String filename = input.next();
+        input.nextLine();
+        TsvReader reader = new TsvReader(filename);
+        try {
+            queue = reader.read();
+            System.out.println("Successfully loaded queue");
+        } catch (InvalidIntegerException e) {
+            System.out.println("Invalid .csv file, mismatched rows");
+        } catch (IOException e) {
+            System.out.println("Invalid file name");
+        }
+    }
+
+    private void doReadJson() {
+        System.out.println("\nEnter the location and filename to load:");
+        String filename = input.next();
+        input.nextLine();
+        JsonReader reader = new JsonReader(filename);
+        try {
+            queue = reader.read();
+            System.out.println("Successfully loaded queue");
+        } catch (IOException e) {
+            System.out.println("Invalid file or file name");
+        }
+    }
+
     private void doSaveQueue() {
+        System.out.println("\nSave as:");
+        System.out.println("\tc -> .csv file");
+        System.out.println("\tt -> .tsv file");
+        System.out.println("\tj -> .json file");
+        System.out.println("\th -> Cancel and return home");
+        String command = input.next();
+        input.nextLine();
+        processSaveQueueCommand(command);
+    }
+
+    private void processSaveQueueCommand(String command) {
+        switch (command) {
+            case "c":
+                doSaveCsv();
+                break;
+            case "t":
+                doSaveTsv();
+                break;
+            case "j":
+                doSaveJson();
+                break;
+            case "h":
+                break;
+            default:
+                doSaveQueue();
+        }
+    }
+
+
+    private void doSaveTsv() {
+        try {
+            System.out.println("\nEnter the location and filename to save:");
+            String filename = input.next();
+            input.nextLine();
+            TsvWriter writer = new TsvWriter(filename);
+            writer.open();
+            writer.write(queue);
+            writer.close();
+            System.out.println("Saved to " + filename);
+        } catch (IOException | InvalidLengthException e) {
+            System.out.println("Invalid file name");
+            doSaveQueue();
+        }
+    }
+
+
+    private void doSaveCsv() {
+        try {
+            System.out.println("\nEnter the location and filename to save:");
+            String filename = input.next();
+            input.nextLine();
+            CsvWriter writer = new CsvWriter(filename);
+            writer.open();
+            writer.write(queue);
+            writer.close();
+            System.out.println("Saved to " + filename);
+        } catch (IOException | InvalidLengthException e) {
+            System.out.println("Invalid file name");
+            doSaveQueue();
+        }
+    }
+
+    private void doSaveJson() {
+        try {
+            System.out.println("\nEnter the location and filename to save:");
+            String filename = input.next();
+            input.nextLine();
+            JsonWriter writer = new JsonWriter(filename);
+            writer.open();
+            writer.write(queue);
+            writer.close();
+            System.out.println("Saved to " + filename);
+        } catch (IOException e) {
+            System.out.println("Invalid file name");
+            doSaveQueue();
+        }
     }
 
     private void doThisQueue() {
