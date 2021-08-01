@@ -240,7 +240,7 @@ public class Queue  implements Writable {
 
     // NOTE: Above default cases ensure that no operations get performed for these default cases (getLengthSafe)
 
-    // THE FOLLOWING METHODS ARE TO ONLY BE USED WITH JSON FILES AND HAVE THE SAME MODIFIES / EFFECTS CLAUSES
+    // THE FOLLOWING METHODS ARE TO ONLY BE USED WITH JSON FILES AND ALL HAVE THE SAME MODIFIES / EFFECTS CLAUSES
     // MODIFIES: this
     // EFFECTS: Adds the String to the corresponding queue
     public void addToFindQueue(String str) {

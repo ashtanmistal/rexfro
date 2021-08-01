@@ -3,6 +3,7 @@ package model;
 import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 import model.exceptions.InvalidBooleanException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -315,6 +316,52 @@ class QueueTest {
             assertFalse(queue.isEmpty());
         } catch (Exception e) {
             fail("Caught unexpected error in length check");
+        }
+    }
+
+
+    @Test
+    public void testToJson() {
+        queue.addToQueue("rtrthhrthtr", "gregreg", "t");
+        assertEquals("{\"Replace operations\":[\"gregreg\"],\"Replace All "
+                 + "operations\":[\"t\"],\"Queue\":\"Queue\",\"Find operations\":[\"rtrthhrthtr\"]}",
+                queue.toJson().toString());
+
+    }
+
+    @Test
+    public void testAddToFindQueue() {
+        queue.addToFindQueue("hello");
+        try {
+            queue.getLength();
+            fail(" Did not catch error");
+        } catch (InvalidLengthException e) {
+            assertEquals("{\"Replace operations\":[],\"Replace "
+                     + "All operations\":[],\"Queue\":\"Queue\",\"Find operations\":[]}", queue.toJson().toString());
+        }
+    }
+
+    @Test
+    public void testAddToReplaceQueue() {
+        queue.addToReplaceQueue("hello");
+        try {
+            queue.getLength();
+            fail(" Did not catch error");
+        } catch (InvalidLengthException e) {
+            assertEquals("{\"Replace operations\":[],\"Replace "
+                    + "All operations\":[],\"Queue\":\"Queue\",\"Find operations\":[]}", queue.toJson().toString());
+        }
+    }
+
+    @Test
+    public void testAddToReplaceAllQueue() {
+        queue.addToReplaceAllQueue("T");
+        try {
+            queue.getLength();
+            fail(" Did not catch error");
+        } catch (InvalidLengthException e) {
+            assertEquals("{\"Replace operations\":[],\"Replace "
+                    + "All operations\":[],\"Queue\":\"Queue\",\"Find operations\":[]}", queue.toJson().toString());
         }
     }
 
