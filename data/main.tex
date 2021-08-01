@@ -1,0 +1,202 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin=1.0in]{geometry}
+
+
+\title{316 Notes: Lecture 1}
+\author{Ashtan Mistal}
+\date{May 10 2021}
+
+\begin{document}
+
+\maketitle
+
+
+Some basic, quick notes regarding the course:
+
+\begin{itemize}
+    \item Watch the pre-recorded lectures prior to the actual lectures
+    \item Homeworks: 20\%; Midterm: 30\%; Final: 50\%
+    \item Homeworks are best 4 out of 5
+    \item Exams will be open book, open notes
+    \item Homeworks can be written + scanned, or written using OneNote or \LaTeX
+\end{itemize}
+
+\section{Brief Overview of ODEs}
+
+First Order ODEs
+
+\begin{itemize}
+    \item Separable ODEs (ex: $y' = \frac{dy}{dx} = p(x) \cdot q(y)$
+    \item Linear: $Ly = y' + p(x) y = Q(x)$, where $\underbrace{L}_{\text{linear}} = \frac{d}{dx} + p(x)$
+\end{itemize}
+
+Second Order ODEs:
+
+\begin{itemize}
+    \item Constant coefficient ODE: $Ly = y'' + a y' + by = 0$
+    \item Cauchy-Euler, or Equi-dimensional ODEs: $Ly = x^2 y'' + a x y' + by = 0$
+    \item L is the linear operator. In the constant coefficient, $L = \frac{d^2}{dx^2} + a \frac{d}{dx} + b$
+\end{itemize}
+
+\subsection{Examples}
+\subsubsection{First Order Separable Equation Examples}
+
+$\frac{dy}{dx} = p(x) Q(y) \longrightarrow \int{\frac{dy}{Q(y)}} = \int{P(x) dx + C}$
+
+Then, we get:
+
+$\frac{dy}{dx} = y \cos(x) \rightarrow \frac{dy}{y} = \cos(x) dx \longrightarrow \ln{|y|} = \sin(x) + C \rightarrow y = C_1 e^{\sin(x)}$
+
+\subsubsection{Linear First Order Equation:}
+
+$y' + p(x) y = Q(x)$
+
+Multiply both sides by an integrating factor $\mu(x)$
+
+Ex: $y' + \frac{2x}{1 + x^2} y = \frac{\cot(x)}{1 + x^2}$
+$\mu(x) y' + \underbrace{\mu(x) \frac{2x}{1 + x^2} y}_{\mu'(x) y} = \frac{\cot(x)}{1 + x^2} \mu(x)$
+Compare to: $\mu(x) y' + \mu'(x) y = \left[\mu(x) y(x) \right]'$
+
+$\frac{d \mu}{dx} = \mu \frac{2x}{1 + x^2}$: integrate: $\int{\frac{d \mu}{\mu}} = \int{\frac{2x}{1 + x^2} dx + C}$
+
+Hence, using integrating factor: $$ \ln |\mu(x)| = \ln(1 + x^2) + C$$ with $\mu(x) = C_1 (1 + x^2)$
+
+Hence, $$C_1(1 + x^2) y' + C_1 2xy = C_1 \cot(x)$$
+
+$$\frac{d}{dx} \left[ (1 + x^2) y \right] = \cot(x)$$
+
+$$(1+x^2)y = \int \cot(x) + C = \ln|\sin(x)| + C$$
+
+Hence, $$y(x) = \frac{\ln|\sin(x)|}{1+x^2} + \frac{C}{1+x^2}$$
+
+\subsection{Second Order Constant Coefficient ODE}
+
+$$ay'' + by' + cy = 0$$
+
+We start with a guess: $e^{rx}$, and substitute: $(ar^2 + br + c) \cdot e^{rx} = 0$. Note that $ar^2 + br + c$ is the characteristic equation. We then have two solutions:'
+
+$$r_{1,2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}, \Delta = b^2 - 4ac$$
+
+Based on the sign of $Delta$, we have 3 different cases:
+
+\begin{itemize}
+    \item $\Delta > 0$: 2 real, distinct roots
+    \item $\Delta < 0$: 2 complex roots
+    \item $\Delta = 0$: Repeated roots.
+\end{itemize}
+
+Example: $2y'' + 2y' + y = 0$: Guess $e^{rx}$.
+
+$2r^2 + 2r + 1 = 0 \longrightarrow r_{1,2} = \frac{-2 \pm \sqrt{4 - 8}}{2(2)}, \Delta = -4$. As $-4 < 0$, this is 2 complex roots. We end up with the following solution: $$e^{\frac{-x}{2}} \left[C_1 e^{\frac{i}{2} x} + C_2 e^{\frac{-i}{2} x} \right]$$
+
+Using Euler's formula $e^{i \theta} = \cos(\theta) + i \sin(\theta)$, we get the following: $$e^{\frac{-x}{2}} \left[ C_1 (\cos(\frac{x}{2}) + i \sin(\frac{x}{2})) + C_2 (\cos(\frac{x}{2}) - i \sin(\frac{x}{2})) \right]$$
+
+$$e^{\frac{-x}{2}} \left[(C_1 + C_2) \cos(\frac{x}{2}) + i (C_1 + C_2) \sin(\frac{x}{2}) \right]$$
+
+$$y(x) = e^{\frac{-x}{2}} \left[ A_1 \cos{\frac{x}{2}} + A_2 \sin{\frac{x}{2}} \right]$$
+
+Real form of the solution, A1 \& A2: $c_1 = a_1 + i b_1$; $c_2 = a_2 + i b_2$
+
+$A_1 = (a_1 + a_2) + i (b_1 + b_2)$, and $A_2 = i(a_1 - a_2) - (b_1 - b_2)$. $b_1 + b_2 = 0$, $a_1 - a_2 = 0$
+
+\hfill \break
+Example: $y'' - 2y' + y = 0$. Characteristic equation: $r^2 - 2r + 1 = 0 \longrightarrow (r - 1)^2 = 0$, and therefore the roots are $r = 1$ repeated. Hence,
+
+$$y = C_1 e^{x} + C_2 x e^x$$
+
+is the solution of the equation.
+
+\subsubsection{Cauchy - Euler Eqn}
+
+$$Ly = x^2 y'' + \alpha x y' + \beta y = 0$$
+
+Guess: $y = x^r$
+
+EX: $2x^2 y'' - x y' + y = 0$. $y(x) = x^r, y'(x) = r x^{r-1}, y'' = r(r-1) x^{r-2}$.
+
+Therefore, $$2 r (r-1)x^r - rx^r + x^r = 0$$
+
+which is equivalent to $$\left[2r(r-1) - r + 1 \right] x^2 = 0$$
+
+$$2r(r-1) - r + 1 = 0 \longrightarrow 2r^2 - 3r + 1 = 0$$
+
+$$r_{1,2} = \frac{3 \pm \sqrt{9 - 8}}{2(2)} = 1, \frac{1}{2}$$
+
+Hence, the solution to the equation is $y(x) = C_1 x + C_2 x^{\frac{1}{2}}$
+
+\hfill
+
+EX2: $x^2 y'' - x y' + y = 0$
+
+$y(x) = x^r$ hence, we get: $r(r-1)x^r - rx^r + x^r = 0$.
+
+Therefore $\left[r(r-1) - r + 1 \right]x^r = 0$.
+
+$$r^2 - 2r + 1 = (r-1)^2 = 0 \rightarrow r = 1$$
+
+$$y_1 = x, y_2 = \ln(x) \cdot x$$
+
+$$y(x) = C_1 x + C_2 x \ln(x)$$
+
+(?) $L y = 0, L \frac{d}{dr} y(x,r) = 0, \frac{d}{dr}(x^r) = x^r \ln(x)$
+
+\hfill
+
+EX3: $x^2 y'' - x y' + 5y = 0$.
+$y(x) = x^r$, and therefore $r(r-1)x^2 - r x^r + 5 x^r = 0$
+
+$\left[r(r-1) - r + 5 \right] x^r = 0$, hence, $r^2 - 2r + 5 = 0$. We then get the general solution of the following:
+
+$$y(x) = C_1 x^{1 + 2i} + C_2 x^{1 - 2i}$$
+
+This can be re-written as the following:
+
+$$y(x) = x \left[ C_1 e^{2i \ln(x)} + C_2 e^{-2i \ln(x)} \right]$$
+
+And hence as the following:
+
+$$y(x) = x \left[ C_1 (\cos(2 \ln (x) + i \sin(2 \ln(x)) + C_2 (\cos(2 \ln(x)) - i \sin(2 \ln(x))) \right]$$
+
+$$ = x \left[(c_1 + c_2) \cos(2 \ln(x)) + i (c_1 - c_2) \sin(2 \ln(x)) \right]$$
+
+$$ = x \left[A_1 \cos(2 \ln(x)) + A_2 \sin(2 \ln(x)) \right]$$
+
+$A_1$ and $A_2$ are real.
+
+\hfill
+
+\hfill
+
+EX4: Solve the IVP
+
+$$x^2 y'' - 3 xy' + 4y = 0, y(1) = 1, y'(1) = 1$$
+
+If we let $y(x) = x^r$, then we get the following: $y(x) = x^r, y'(x) = r x^{r-1}, y'' = r(r-1) x^{r-2}$
+
+Plugging this into our equations:
+
+$x^2 r(r-1) x^{r-2} - 3 xr x^{r-1} + 4 x^r = 0$
+
+Solving, we discover we have a repeated root of 2. Hence, the general solution is $y(x) = C_1 x^2 + C_2 x^2 \ln(x)$. Plugging in the initial conditions, we find that $C_1 = 1$, and $C_2 = -1$ and hence the solution is $y(x) = x^2 - x^2 \ln(x)$
+
+\section{Series Solutions of ODEs}
+
+We use power series expansion to solve variable coefficient linear ODEs. Remember that a function $f(x)$ can be approximated by a polynomial of degree $n$, such that $f(x) = a_0 + a_1 x + a_2 x^2 + ... + a_n x^n$. As the degree of $n$ increases, the approximation improves. Hence, $f(x) = \sum_{m = 0}^{\infty} a_m x^m$. Or, in general, we can approximate $f(x)$ by a power series expanded about a point $x_0$, writing it as $f(x) = \sum_{n = 0}^{\infty} a_n (x - x_0)^n$. We can remember that when we had the Taylor series, $a_n = \frac{f^{(n)} (x_0)}{n!}$. So, we have: $f(x) = \sum_{n = 0}^{\infty} \frac{f^{(n)} x(0)}{n!} (x - x_0)^n$.
+
+\subsubsection{Example: $y' + (1 - 2x) y = 0$}
+
+Using the integrating factor, $\mu(x) = e^{\int (1 - 2x) dx} = e^{x - x^2}$.
+
+$\left[ y e^{x - x^2} \right]' = 0 \longrightarrow y e^{x - x^2} = C \rightarrow y = C e^{-x + x^2}$.
+
+Use Taylor expansion $y(x)$ about the point $x_0 = 0$.
+
+In order to do this, we write it as the sum described above:
+
+$$f(x) = \sum_{n = 0}^{\infty} \frac{f^{(n)} x(0)}{n!} (x - x_0)^n$$
+
+We can then let $y = \sum_{n = 0}^{\infty} \frac{f^{(n)} x(0)}{n!} x^n$ and $y' = \sum_{n = 1}^{\infty} \frac{f^{(n)} x(0)}{n!} n x^{n-1}$, and therefore we can write our ODE as $$\sum_{n = 1}^{\infty} \frac{f^{(n)} x(0)}{n!} x^{n-1} + (1 - 2x)\sum_{n = 0}^{\infty} \frac{f^{(n)} x(0)}{n!} x^n = 0$$
+\end{document}

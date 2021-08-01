@@ -1,0 +1,4 @@
+Hello there!
+This is a test of a string with multiple lines.
+
+Goodbye!
