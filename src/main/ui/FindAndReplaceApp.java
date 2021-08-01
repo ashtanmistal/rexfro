@@ -6,11 +6,11 @@ import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 import persistence.*;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Scanner;
 
 // Code for UI somewhat adapted from Teller App (from Edx)
@@ -110,19 +110,45 @@ public class FindAndReplaceApp {
     }
 
     private void doRunQueueAll() {
+        LinkedList<String> outputAll = new LinkedList<>();
         for (String s: stringLinkedList) {
             try {
-                System.out.println("\n" + operator.iterator(s, queue));
+                String output = operator.iterator(s, queue);
+                outputAll.add(output);
+                System.out.println("\n" + output);
             } catch (Exception e) {
                 System.out.println("Error in iterating through string: " + s);
             }
         }
-        doRun();
+        System.out.println("\nDone. Do you want to save all? [Y/N]");
+        String command = input.next();
+        input.nextLine();
+        if (Objects.equals(command, "Y") || Objects.equals(command, "y")) {
+            doSaveStringAll(outputAll);
+        }
+    }
+
+    private void doSaveStringAll(LinkedList<String> outputAll) {
+        System.out.println("Please enter the folder to save the operated texts to: ");
+        String ou = input.nextLine();
+        String dt = String.valueOf(java.time.Clock.systemUTC().instant());
+        int totalCount = outputAll.size();
+        for (String s : outputAll) {
+            StringWriter w = new StringWriter(ou + "FROP_" + dt + "(" + outputAll.indexOf(s) + ")");
+            try {
+                w.open();
+                w.write(s);
+                w.close();
+            } catch (FileNotFoundException e) {
+                totalCount -= 1;
+            }
+        }
+        System.out.println("Files saved: " + ou + "FROP_" + dt + "(" + 0 + ") and " + (totalCount - 1) + " more. "
+                 + (outputAll.size() - totalCount) + " files saved incorrectly");
     }
 
     private void doIndividualRun() {
         try {
-            doViewStrings();
             System.out.println("What is the index of the string you want to operate on?");
             int index = input.nextInt();
             input.nextLine();
@@ -130,15 +156,38 @@ public class FindAndReplaceApp {
                 System.out.println("Index is larger than size of list");
             } else {
                 try {
-                    System.out.println((operator.iterator(stringLinkedList.get(index), queue)));
+                    String output = operator.iterator(stringLinkedList.get(index), queue);
+                    System.out.println(output + "\nDo you want to save this output? [Y/N]");
+                    String command = input.next();
+                    input.nextLine();
+                    if (Objects.equals(command, "Y") || Objects.equals(command, "y")) {
+                        doSaveString(output);
+                    }
                 } catch (Exception e) {
                     System.out.println("Unexpected error in iteration");
                 }
             }
-            doRun();
         } catch (Exception e) {
             System.out.println("Not an integer. ");
             doRun();
+        }
+    }
+
+    private void doSaveString(String output) {
+        System.out.println("\nEnter the location and filename to save the string to: ");
+        String location = input.nextLine();
+        try {
+            StringWriter writer = new StringWriter(location);
+            writer.open();
+            writer.write(output);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Invalid filename. Do you want to try again? [Y/N]");
+            String command = input.next();
+            input.nextLine();
+            if (Objects.equals(command, "Y") || Objects.equals(command, "y")) {
+                doSaveString(output);
+            }
         }
     }
 
@@ -164,12 +213,18 @@ public class FindAndReplaceApp {
         String all = input.next();
         input.nextLine();
         if (checkValid(find, replace, all)) {
-            System.out.println(operator.singular(text, find, replace, toBool(all)));
+            String output = operator.singular(text, find, replace, toBool(all));
+            System.out.println(output);
+            System.out.println("\nDo you want to save this output? [Y/N]");
+            String command = input.next();
+            input.nextLine();
+            if (Objects.equals(command, "Y") || Objects.equals(command, "y")) {
+                doSaveString(output);
+            }
         } else {
             System.out.println("Invalid operation");
         }
         doRun();
-
     }
 
     private Boolean toBool(String newReplaceAll) {
@@ -388,6 +443,7 @@ public class FindAndReplaceApp {
                 break;
             case "v":
                 doViewQueue();
+                doThisQueue();
             case "h":
                 break;
             default:
@@ -528,6 +584,8 @@ public class FindAndReplaceApp {
     private void doStrings() {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> Add new string");
+        System.out.println("\tl -> Load string from text file");
+        System.out.println("\ts -> Save strings as a file");
         System.out.println("\td -> delete a string");
         System.out.println("\tv -> view strings");
         System.out.println("\th -> home");
@@ -541,6 +599,9 @@ public class FindAndReplaceApp {
             case "a":
                 doAddNewString();
                 break;
+            case "l":
+                doLoadString();
+                break;
             case "d":
                 doDeleteString();
                 break;
@@ -550,6 +611,20 @@ public class FindAndReplaceApp {
                 break;
             default:
                 doStrings();
+        }
+    }
+
+    private void doLoadString() {
+        try {
+            System.out.println("\nEnter the location and filename to load:");
+            String filename = input.next();
+            input.nextLine();
+            StringReader reader = new StringReader(filename);
+            stringLinkedList.add(reader.read());
+            System.out.println("Successfully loaded string");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            doStrings();
         }
     }
 
