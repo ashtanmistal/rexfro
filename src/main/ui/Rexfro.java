@@ -78,7 +78,7 @@ public class Rexfro extends JFrame implements ActionListener {
         JPanel queuePanel = new JPanel();
         queueTextComponent.setSize((int) (0.9 * WIDTH), (int) (0.9 * HEIGHT));
         queuePanel.add(queueTextComponent);
-        tabs.add("Queue", queuePanel);
+        tabs.add("Queue", new JScrollPane(queuePanel)); // TODO: I changed stuff here
     }
 
     private String parseQueueAsString() throws InvalidLengthException {
@@ -97,7 +97,40 @@ public class Rexfro extends JFrame implements ActionListener {
         createQueueMenu(menuBar);
         createTextMenu(menuBar);
         createRunMenu(menuBar);
+        createAboutMenu(menuBar);
         return menuBar;
+    }
+
+    private void createAboutMenu(JMenuBar menuBar) {
+        JMenuItem aboutMenu = new JMenuItem("About");
+        StringBuilder readMe = new StringBuilder();
+        aboutMenu.addActionListener(e -> readMeCreator(readMe));
+        menuBar.add(aboutMenu);
+    }
+
+    private void readMeCreator(StringBuilder readMe) {
+        Scanner input = null;
+        try {
+            input = new Scanner(new File("README.md"));
+        } catch (FileNotFoundException exception) {
+            errorDialog("README.md file not found");
+        }
+        while (true) {
+            assert input != null;
+            if (!input.hasNextLine()) {
+                break;
+            }
+            readMe.append(input.nextLine()).append("\n");
+        }
+        JTextArea textArea = new JTextArea();
+        textArea.setText(readMe.toString());
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        JFrame tempFrame = new JFrame();
+        tempFrame.getContentPane().add(scrollPane);
+        tempFrame.setSize((int) (0.5 * WIDTH), (int) (0.5 * HEIGHT));
+        tempFrame.setVisible(true);
     }
 
     private void createRunMenu(JMenuBar menuBar) {
@@ -272,7 +305,7 @@ public class Rexfro extends JFrame implements ActionListener {
             JEditorPane tempEditorPane = new JEditorPane();
             tempEditorPane.setSize((int) (0.9 * WIDTH), (int) (0.9 * HEIGHT));
             tempEditorPane.setText("");
-            tabs.add(result, tempEditorPane);
+            tabs.add(result, new JScrollPane(tempEditorPane)); // TODO: change here to add scrolling
             textTabs.add(tempEditorPane);
             textTabsFilenames.add(result);
             reloadDynamicMenus();
@@ -286,18 +319,14 @@ public class Rexfro extends JFrame implements ActionListener {
             JFileChooser openMenu = new JFileChooser();
             new File("");
             File fileOpen;
-            openMenu.setCurrentDirectory(new File("C:\\"));
+            openMenu.setCurrentDirectory(new File(""));
             openMenu.setDialogTitle("Open a File");
             if (openMenu.showOpenDialog(textLoad) == JFileChooser.APPROVE_OPTION) {
                 fileOpen = openMenu.getSelectedFile();
                 try {
                     persistence.StringReader reader = new persistence.StringReader(fileOpen.getPath());
-                    if (Objects.equals(reader.read(), "")) {
-                        throw new IOException();
-                    } else {
-                        extractedHelperForLoadingText(fileOpen, reader);
-                        reloadDynamicMenus();
-                    }
+                    extractedHelperForLoadingText(fileOpen, reader); // this was in a if statement before to avoid
+                    reloadDynamicMenus(); // empty text files and unsupported files
                 } catch (IOException e) {
                     errorDialog("Error in loading file");
                 }
@@ -313,7 +342,7 @@ public class Rexfro extends JFrame implements ActionListener {
         tempEditorPane.setSize((int) (0.9 * WIDTH), (int) (0.9 * HEIGHT));
         tempEditorPane.setText(reader.read());
         String fileName = fileOpen.getName();
-        tabs.add(fileName, tempEditorPane);
+        tabs.add(fileName, new JScrollPane(tempEditorPane)); // TODO: Change it here to add scrolling
         textTabs.add(tempEditorPane);
         textTabsFilenames.add(fileName);
     }
@@ -333,7 +362,7 @@ public class Rexfro extends JFrame implements ActionListener {
             JLabel label = new JLabel(icon);
             JOptionPane.showMessageDialog(errorFrame, label);
         } catch (IOException e) {
-            // do nothing I guess
+            // do nothing
         }
         JOptionPane.showMessageDialog(errorFrame, errorType);
     }
@@ -411,14 +440,15 @@ public class Rexfro extends JFrame implements ActionListener {
     private void reloadQueue() {
         queue = new Queue();
         Scanner scanner = new Scanner(queueTextComponent.getText());
-        while (scanner.hasNextLine()) {
-            try {
+
+        try {
+            while (scanner.hasNextLine()) {
                 String temp = scanner.nextLine();
                 String[] tempArray = temp.split(",");
                 queue.addToQueue(tempArray[0], tempArray[1], tempArray[2]);
-            } catch (Exception e) {
-                errorDialog("Please fix the queue before running");
             }
+        } catch (Exception e) {
+            errorDialog("Please fix the queue before running");
         }
     }
 

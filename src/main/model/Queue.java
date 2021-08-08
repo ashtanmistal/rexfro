@@ -160,8 +160,10 @@ public class Queue  implements Writable {
             return true;
         } else if (replace.equalsIgnoreCase("T")) {
             return true;
+        } else if (replace.equalsIgnoreCase("1")) {
+            return true;
         } else {
-            return replace.equals("1");
+            return replace.equalsIgnoreCase("Y");
         }
     }
 
