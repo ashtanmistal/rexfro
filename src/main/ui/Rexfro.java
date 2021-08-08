@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.io.File;
 import java.util.Objects;
+import java.util.Scanner;
 
 import model.Operator;
 import model.Queue;
@@ -26,12 +27,16 @@ public class Rexfro extends JFrame implements ActionListener {
     private Operator operator;
     private LinkedList<String> stringLinkedList;
     private LinkedList<String> fileNameLinkedList;
+    private LinkedList<JEditorPane> textTabs;
+    private LinkedList<String> textTabsFilenames;
 
     // dynamically updated menus
     JMenu textSave = new JMenu("Save");
     JMenu runOnIndividual = new JMenu("Run on individual text");
-    JMenu textEdit = new JMenu("Edit");
+    JMenu textRemove = new JMenu("Remove");
     JTabbedPane tabs = new JTabbedPane();
+    JTextComponent queueTextComponent = new JEditorPane();
+
 
 
     public Rexfro() {
@@ -72,13 +77,14 @@ public class Rexfro extends JFrame implements ActionListener {
         operator = new Operator();
         stringLinkedList = new LinkedList<>();
         fileNameLinkedList = new LinkedList<>();
+        textTabs = new LinkedList<>();
+        textTabsFilenames = new LinkedList<>();
     }
 
     private void tabSystem() {
         JPanel queuePanel = new JPanel();
-        JTextComponent textComponent = new JEditorPane();
-        textComponent.setSize((int)(0.9 * WIDTH), (int)(0.9 * HEIGHT));
-        queuePanel.add(textComponent);
+        queueTextComponent.setSize((int)(0.9 * WIDTH), (int)(0.9 * HEIGHT));
+        queuePanel.add(queueTextComponent);
         tabs.add("Queue", queuePanel);
     }
 
@@ -125,9 +131,6 @@ public class Rexfro extends JFrame implements ActionListener {
         queueMenu.add(queueSave);
         makeSaveQueueMenu(queueSave);
 
-        JMenuItem queueEdit = new JMenuItem("Edit");
-        queueMenu.add(queueEdit);
-
         menuBar.add(queueMenu);
     }
 
@@ -148,7 +151,8 @@ public class Rexfro extends JFrame implements ActionListener {
                 } else {
                     errorDialog("Unsupported file type");
                 }
-            } catch (IOException | InvalidIntegerException e) {
+                queueTextComponent.setText(parseQueueAsString());
+            } catch (IOException | InvalidIntegerException | InvalidLengthException e) {
                 errorDialog("Unable to load file");
             }
         }
@@ -168,6 +172,7 @@ public class Rexfro extends JFrame implements ActionListener {
     }
 
     private void queueSaveMethod(String type) {
+        reloadQueue();
         JFileChooser openMenu = new JFileChooser();
         int returnVal = openMenu.showSaveDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -220,8 +225,8 @@ public class Rexfro extends JFrame implements ActionListener {
         });
         textMenu.add(textSaveAll);
 
-        dynamicFileMenuAdd(textEdit, "edit");
-        textMenu.add(textEdit);
+        dynamicFileMenuAdd(textRemove, "remove");
+        textMenu.add(textRemove);
 
         JMenuItem textNew = new JMenuItem("New...");
         textMenu.add(textNew);
@@ -243,8 +248,7 @@ public class Rexfro extends JFrame implements ActionListener {
                     if (Objects.equals(reader.read(), "")) {
                         throw new IOException();
                     } else {
-                        stringLinkedList.add(reader.read());
-                        fileNameLinkedList.add(fileOpen.getPath());
+                        extractedHelperForLoadingText(fileOpen, reader);
                         reloadDynamicMenus();
                     }
                 } catch (IOException e) {
@@ -255,10 +259,22 @@ public class Rexfro extends JFrame implements ActionListener {
         textMenu.add(textLoad);
     }
 
+    private void extractedHelperForLoadingText(File fileOpen, StringReader reader) throws FileNotFoundException {
+        stringLinkedList.add(reader.read());
+        fileNameLinkedList.add(fileOpen.getPath());
+        JEditorPane tempEditorPane = new JEditorPane();
+        tempEditorPane.setSize((int)(0.9 * WIDTH), (int)(0.9 * HEIGHT));
+        tempEditorPane.setText(reader.read());
+        String fileName = fileOpen.getName();
+        tabs.add(fileName, tempEditorPane);
+        textTabs.add(tempEditorPane);
+        textTabsFilenames.add(fileName);
+    }
+
     private void reloadDynamicMenus() {
         dynamicFileMenuAdd(textSave, "save");
         dynamicFileMenuAdd(runOnIndividual, "run");
-        dynamicFileMenuAdd(textEdit, "edit");
+        dynamicFileMenuAdd(textRemove, "remove");
     }
 
     private void errorDialog(String errorType) {
@@ -266,19 +282,83 @@ public class Rexfro extends JFrame implements ActionListener {
     }
 
     private void dynamicFileMenuAdd(JMenu menu, String action) {
-        if (fileNameLinkedList == null || fileNameLinkedList.size() == 0) {
-            JRadioButtonMenuItem noItems = new JRadioButtonMenuItem("No items yet");
-            menu.add(noItems);
-        } else if (action.equalsIgnoreCase("save")) {
-            for (String s : fileNameLinkedList) {
-                JRadioButtonMenuItem fileNameMenu = new JRadioButtonMenuItem(s, false);
-                menu.add(fileNameMenu);
-                fileNameMenu.addActionListener(e -> saveItem(stringLinkedList.get(fileNameLinkedList.indexOf(s)), s));
+        if (fileNameLinkedList != null && fileNameLinkedList.size() != 0) {
+            if (action.equalsIgnoreCase("save")) {
+                for (String s : fileNameLinkedList) {
+                    JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
+                    menu.add(fitem);
+                    fitem.addActionListener(e -> saveItem(stringLinkedList.get(fileNameLinkedList.indexOf(s)), s));
+                } // TODO: FIX
+            } else if (action.equalsIgnoreCase("run")) {
+                extractedRunMethod(menu);
+            } else if (action.equalsIgnoreCase("remove")) {
+                extractedRemoveMethod(menu);
             }
-        } else if (action.equalsIgnoreCase("run")) {
-            // stub
-        } else if (action.equalsIgnoreCase("edit")) {
-            // stub
+        }
+    }
+
+    private void extractedRunMethod(JMenu menu) {
+        for (String s : fileNameLinkedList) {
+            JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
+            menu.add(fitem);
+            fitem.addActionListener(e -> {
+                try {
+                    int i = fileNameLinkedList.indexOf(s);
+                    pullTabChangesToText();
+                    System.out.println(parseQueueAsString());
+                    String st = operator.iterator(stringLinkedList.get(i), queue);
+                    System.out.println(st);
+                    stringLinkedList.set(i, st);
+                    pushTextChangesToTabs();
+                } catch (Exception ex) {
+                    errorDialog("Error in iterating through text");
+                }
+            });
+        }
+    }
+
+    private void extractedRemoveMethod(JMenu menu) {
+        for (String s : fileNameLinkedList) {
+            JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
+            menu.add(fitem);
+            fitem.addActionListener((ActionEvent ae) -> {
+                tabs.removeTabAt(fileNameLinkedList.indexOf(s) + 1);
+                menu.remove(fitem);
+            });
+        }
+    }
+
+    private void pushTextChangesToTabs() {
+        for (int i = 0; i < textTabsFilenames.size(); i++) {
+            textTabs.get(i).setText(stringLinkedList.get(i));
+            System.out.println(stringLinkedList);
+        }
+    }
+
+    private void pullTabChangesToText() {
+        for (int i = 0; i < textTabsFilenames.size(); i++) {
+            stringLinkedList.set(i, textTabs.get(i).getText());
+            System.out.println(stringLinkedList);
+        }
+    }
+
+    private void reloadQueue() {
+        try {
+            for (int i = 0; i < queue.getLength(); i++) {
+                queue.deleteItem(i);
+            }
+        } catch (Exception e) {
+            errorDialog("Queue is not of the same length. Error in resetting queue");
+        }
+        Scanner scanner = new Scanner(queueTextComponent.getText());
+        while (scanner.hasNextLine()) {
+            try {
+                String temp = scanner.nextLine();
+                String[] tempArray = temp.split(",");
+                queue.addToQueue(tempArray[0], tempArray[1], tempArray[2]);
+            } catch (Exception e) {
+                errorDialog("you got a weird queue, bud. try fixing it before running it again?");
+            }
         }
     }
 
