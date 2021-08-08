@@ -1,0 +1,7 @@
+DNF | (A wedge lnotb) vee (lnotA wedge b)
+CNF | (lnotA vee lnotb) wedge (A vee b)
+ANF | A oplus b
+NOR | (lnotA bar{vee} lnotb) bar{vee} (A bar{vee} b)
+NAND | (A bar{wedge} lnotb) bar{wedge} (lnotA bar{wedge} b)
+AND | lnot(A wedge b) wedge lnot(lnotA wedge lnotb)
+OR | lnot(lnotA vee b) vee lnot(A vee lnotb)

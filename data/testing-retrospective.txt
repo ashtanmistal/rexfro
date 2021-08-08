@@ -1,0 +1,7 @@
+DNF | (A ∧ ¬b) ∨ (¬A ∧ b)
+CNF | (¬A ∨ ¬b) ∧ (A ∨ b)
+ANF | A ⊻ b
+NOR | (¬A ⊽ ¬b) ⊽ (A ⊽ b)
+NAND | (A ⊼ ¬b) ⊼ (¬A ⊼ b)
+AND | ¬(A ∧ b) ∧ ¬(¬A ∧ ¬b)
+OR | ¬(¬A ∨ b) ∨ ¬(A ∨ ¬b)
