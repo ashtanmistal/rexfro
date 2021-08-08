@@ -1,27 +1,30 @@
 package ui;
 
 
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.io.File;
-import java.util.Objects;
-import java.util.Scanner;
-
 import model.Operator;
 import model.Queue;
 import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 import persistence.*;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Scanner;
+
 public class Rexfro extends JFrame implements ActionListener {
     public static final int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
     public static final int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
+    private static final String IMG_PATH = "data/errorimage.jpg";
     private static Queue queue;
 
     private Operator operator;
@@ -73,7 +76,7 @@ public class Rexfro extends JFrame implements ActionListener {
 
     private void tabSystem() {
         JPanel queuePanel = new JPanel();
-        queueTextComponent.setSize((int)(0.9 * WIDTH), (int)(0.9 * HEIGHT));
+        queueTextComponent.setSize((int) (0.9 * WIDTH), (int) (0.9 * HEIGHT));
         queuePanel.add(queueTextComponent);
         tabs.add("Queue", queuePanel);
     }
@@ -107,39 +110,31 @@ public class Rexfro extends JFrame implements ActionListener {
         JMenuItem manualFR = new JMenuItem("Manual Find and Replace");
         runMenu.add(manualFR);
         manualFR.addActionListener(e -> runManualFROperation());
-        JMenuItem queueOnNewNext = new JMenuItem("Run queue on new text...");
-        runMenu.add(queueOnNewNext);
-        queueOnNewNext.addActionListener(e -> runQueueOnNewText());
         menuBar.add(runMenu);
     }
 
-    private void runQueueOnNewText() {
-        // TODO: Finish
-    }
-
     private void runManualFROperation() {
-        String text = (String)JOptionPane.showInputDialog(this,
+        String text = (String) JOptionPane.showInputDialog(this,
                 "Enter the text:", "Rexfro Manual Mode - Text", JOptionPane.PLAIN_MESSAGE, null,
-                null,"");
-        if (text != null) {
-            String find = (String)JOptionPane.showInputDialog(this,
-                    "Enter the find operation:", "Rexfro Manual Mode - Find", JOptionPane.PLAIN_MESSAGE,
-                    null, null,"");
-            if (find != null) {
-                String replace = (String) JOptionPane.showInputDialog(this,
-                        "Enter the Replace operation:", "Rexfro Manual Mode - Replace",
-                        JOptionPane.PLAIN_MESSAGE, null, null, "");
-                if (replace != null) {
-                    String replaceAll = (String) JOptionPane.showInputDialog(this,
-                            "Do you want to replace all [Y], or just the first instance [N]?",
-                            "Rexfro Manual Mode - Replace All", JOptionPane.PLAIN_MESSAGE, null,
-                            null, "");
-                    if (replaceAll != null) {
-                        String result = operator.singular(text, find, replace, queue.validTrue(replaceAll));
-                        JOptionPane.showMessageDialog(new JFrame(), result);
-                    }
-                }
-            }
+                null, "");
+        String find = (String) JOptionPane.showInputDialog(this,
+                "Enter the find operation:", "Rexfro Manual Mode - Find", JOptionPane.PLAIN_MESSAGE,
+                null, null, "");
+        String replace = (String) JOptionPane.showInputDialog(this,
+                "Enter the Replace operation:", "Rexfro Manual Mode - Replace",
+                JOptionPane.PLAIN_MESSAGE, null, null, "");
+        String replaceAll = (String) JOptionPane.showInputDialog(this,
+                "Do you want to replace all [Y], or just the first instance [N]?",
+                "Rexfro Manual Mode - Replace All", JOptionPane.PLAIN_MESSAGE, null,
+                null, "");
+        if ((replaceAll != null) && (replace != null) && (find != null) && (text != null)) {
+            String result = operator.singular(text, find, replace, queue.validTrue(replaceAll));
+            JTextArea textArea = new JTextArea();
+            textArea.setText(result);
+            JFrame tempFrame = new JFrame();
+            tempFrame.add(textArea);
+            tempFrame.setSize((int) (0.5 * WIDTH), (int) (0.5 * HEIGHT));
+            tempFrame.setVisible(true);
         }
     }
 
@@ -164,7 +159,6 @@ public class Rexfro extends JFrame implements ActionListener {
         JMenu queueSave = new JMenu("Save");
         queueMenu.add(queueSave);
         makeSaveQueueMenu(queueSave);
-
         menuBar.add(queueMenu);
     }
 
@@ -267,12 +261,12 @@ public class Rexfro extends JFrame implements ActionListener {
     }
 
     private void newTextMethod() {
-        String result = (String)JOptionPane.showInputDialog(this,
+        String result = (String) JOptionPane.showInputDialog(this,
                 "Enter the name of the file", "New file", JOptionPane.PLAIN_MESSAGE,
                 null,
-                null,".txt");
+                null, ".txt");
         if (result != null) {
-            String path = "data/savedstrings/" + result;
+            String path = "data\\saved\\" + result;
             stringLinkedList.add("");
             fileNameLinkedList.add(path);
             JEditorPane tempEditorPane = new JEditorPane();
@@ -316,7 +310,7 @@ public class Rexfro extends JFrame implements ActionListener {
         stringLinkedList.add(reader.read());
         fileNameLinkedList.add(fileOpen.getPath());
         JEditorPane tempEditorPane = new JEditorPane();
-        tempEditorPane.setSize((int)(0.9 * WIDTH), (int)(0.9 * HEIGHT));
+        tempEditorPane.setSize((int) (0.9 * WIDTH), (int) (0.9 * HEIGHT));
         tempEditorPane.setText(reader.read());
         String fileName = fileOpen.getName();
         tabs.add(fileName, tempEditorPane);
@@ -331,7 +325,17 @@ public class Rexfro extends JFrame implements ActionListener {
     }
 
     private void errorDialog(String errorType) {
-        JOptionPane.showMessageDialog(new JFrame(), errorType);
+        JFrame errorFrame = new JFrame();
+        // from https://stackoverflow.com/questions/8333802/displaying-an-image-in-java-swing
+        try {
+            BufferedImage img = ImageIO.read(new File(IMG_PATH));
+            ImageIcon icon = new ImageIcon(img);
+            JLabel label = new JLabel(icon);
+            JOptionPane.showMessageDialog(errorFrame, label);
+        } catch (IOException e) {
+            // do nothing I guess
+        }
+        JOptionPane.showMessageDialog(errorFrame, errorType);
     }
 
     private void dynamicFileMenuAdd(JMenu menu, String action) {
@@ -413,7 +417,7 @@ public class Rexfro extends JFrame implements ActionListener {
                 String[] tempArray = temp.split(",");
                 queue.addToQueue(tempArray[0], tempArray[1], tempArray[2]);
             } catch (Exception e) {
-                errorDialog("you got a weird queue, bud. try fixing it before running it again?");
+                errorDialog("Please fix the queue before running");
             }
         }
     }
