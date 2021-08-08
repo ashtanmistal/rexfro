@@ -20,8 +20,8 @@ import model.exceptions.InvalidLengthException;
 import persistence.*;
 
 public class Rexfro extends JFrame implements ActionListener {
-    public static final int WIDTH = 1920;
-    public static final int HEIGHT = 1080;
+    public static final int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
+    public static final int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
     private static Queue queue;
 
     private Operator operator;
@@ -33,10 +33,8 @@ public class Rexfro extends JFrame implements ActionListener {
     // dynamically updated menus
     JMenu textSave = new JMenu("Save");
     JMenu runOnIndividual = new JMenu("Run on individual text");
-    JMenu textRemove = new JMenu("Remove");
     JTabbedPane tabs = new JTabbedPane();
     JTextComponent queueTextComponent = new JEditorPane();
-
 
 
     public Rexfro() {
@@ -45,23 +43,14 @@ public class Rexfro extends JFrame implements ActionListener {
         initializeGraphics();
     }
 
-    // getters
+    // getter
     public static Queue getQueue() {
         return queue;
-    }
-
-    public Operator getOperator() {
-        return operator;
-    }
-
-    public LinkedList<String> getStrings() {
-        return stringLinkedList;
     }
 
     // MODIFIES: this
     // EFFECTS: Draws the JFrame window where this Rexfro instance will open, populates tools to be used
     private void initializeGraphics() {
-
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         this.setJMenuBar(menuSystem());
@@ -110,16 +99,60 @@ public class Rexfro extends JFrame implements ActionListener {
     private void createRunMenu(JMenuBar menuBar) {
         JMenu runMenu = new JMenu("Run");
         JMenuItem runOnAll = new JMenuItem("Run on all");
+        runOnAll.addActionListener(e -> runOnAll());
         runMenu.add(runOnAll);
-
         dynamicFileMenuAdd(runOnIndividual, "run");
         runMenu.add(runOnIndividual);
-
         JMenuItem manualFR = new JMenuItem("Manual Find and Replace");
         runMenu.add(manualFR);
+        manualFR.addActionListener(e -> runManualFROperation());
         JMenuItem queueOnNewNext = new JMenuItem("Run queue on new text...");
         runMenu.add(queueOnNewNext);
+        queueOnNewNext.addActionListener(e -> runQueueOnNewText());
         menuBar.add(runMenu);
+    }
+
+    private void runQueueOnNewText() {
+        // TODO: Finish
+    }
+
+    private void runManualFROperation() {
+        String text = (String)JOptionPane.showInputDialog(this,
+                "Enter the text:", "Rexfro Manual Mode - Text", JOptionPane.PLAIN_MESSAGE, null,
+                null,"");
+        if (text != null) {
+            String find = (String)JOptionPane.showInputDialog(this,
+                    "Enter the find operation:", "Rexfro Manual Mode - Find", JOptionPane.PLAIN_MESSAGE,
+                    null, null,"");
+            if (find != null) {
+                String replace = (String) JOptionPane.showInputDialog(this,
+                        "Enter the Replace operation:", "Rexfro Manual Mode - Replace",
+                        JOptionPane.PLAIN_MESSAGE, null, null, "");
+                if (replace != null) {
+                    String replaceAll = (String) JOptionPane.showInputDialog(this,
+                            "Do you want to replace all [Y], or just the first instance [N]?",
+                            "Rexfro Manual Mode - Replace All", JOptionPane.PLAIN_MESSAGE, null,
+                            null, "");
+                    if (replaceAll != null) {
+                        String result = operator.singular(text, find, replace, queue.validTrue(replaceAll));
+                        JOptionPane.showMessageDialog(new JFrame(), result);
+                    }
+                }
+            }
+        }
+    }
+
+    private void runOnAll() {
+        pullTabChangesToText();
+        reloadQueue();
+        for (int i = 0; i < textTabsFilenames.size(); i++) {
+            try {
+                stringLinkedList.set(i, operator.iterator(stringLinkedList.get(i), queue));
+            } catch (Exception exception) {
+                errorDialog("Unable to process queue on " + textTabsFilenames.get(i));
+            }
+        }
+        pushTextChangesToTabs();
     }
 
     private void createQueueMenu(JMenuBar menuBar) {
@@ -225,20 +258,38 @@ public class Rexfro extends JFrame implements ActionListener {
         });
         textMenu.add(textSaveAll);
 
-        dynamicFileMenuAdd(textRemove, "remove");
-        textMenu.add(textRemove);
-
         JMenuItem textNew = new JMenuItem("New...");
         textMenu.add(textNew);
+        textNew.addActionListener(e -> newTextMethod());
         menuBar.add(textMenu);
     }
+
+    private void newTextMethod() {
+        String result = (String)JOptionPane.showInputDialog(this,
+                "Enter the name of the file", "New file", JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,".txt");
+        if (result != null) {
+            String path = "data/savedstrings/" + result;
+            stringLinkedList.add("");
+            fileNameLinkedList.add(path);
+            JEditorPane tempEditorPane = new JEditorPane();
+            tempEditorPane.setSize((int) (0.9 * WIDTH), (int) (0.9 * HEIGHT));
+            tempEditorPane.setText("");
+            tabs.add(result, tempEditorPane);
+            textTabs.add(tempEditorPane);
+            textTabsFilenames.add(result);
+            reloadDynamicMenus();
+        }
+    } // TODO: Finish
 
     private void textLoadMethod(JMenu textMenu) {
         JMenuItem textLoad = new JMenuItem("Load");
         // from https://www.highrankingessays.com/uncategorized/code-completion-11-103-add-listeners-to-menu-add-the-menu-items-shown-below/
         textLoad.addActionListener((ActionEvent ae) -> {
             JFileChooser openMenu = new JFileChooser();
-            File fileOpen = new File("");
+            new File("");
+            File fileOpen;
             openMenu.setCurrentDirectory(new File("C:\\"));
             openMenu.setDialogTitle("Open a File");
             if (openMenu.showOpenDialog(textLoad) == JFileChooser.APPROVE_OPTION) {
@@ -274,7 +325,6 @@ public class Rexfro extends JFrame implements ActionListener {
     private void reloadDynamicMenus() {
         dynamicFileMenuAdd(textSave, "save");
         dynamicFileMenuAdd(runOnIndividual, "run");
-        dynamicFileMenuAdd(textRemove, "remove");
     }
 
     private void errorDialog(String errorType) {
@@ -282,17 +332,16 @@ public class Rexfro extends JFrame implements ActionListener {
     }
 
     private void dynamicFileMenuAdd(JMenu menu, String action) {
+        menu.removeAll();
         if (fileNameLinkedList != null && fileNameLinkedList.size() != 0) {
             if (action.equalsIgnoreCase("save")) {
                 for (String s : fileNameLinkedList) {
                     JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
                     menu.add(fitem);
                     fitem.addActionListener(e -> saveItem(stringLinkedList.get(fileNameLinkedList.indexOf(s)), s));
-                } // TODO: FIX
+                }
             } else if (action.equalsIgnoreCase("run")) {
                 extractedRunMethod(menu);
-            } else if (action.equalsIgnoreCase("remove")) {
-                extractedRemoveMethod(menu);
             }
         }
     }
@@ -305,9 +354,8 @@ public class Rexfro extends JFrame implements ActionListener {
                 try {
                     int i = fileNameLinkedList.indexOf(s);
                     pullTabChangesToText();
-                    System.out.println(parseQueueAsString());
+                    reloadQueue();
                     String st = operator.iterator(stringLinkedList.get(i), queue);
-                    System.out.println(st);
                     stringLinkedList.set(i, st);
                     pushTextChangesToTabs();
                 } catch (Exception ex) {
@@ -317,39 +365,20 @@ public class Rexfro extends JFrame implements ActionListener {
         }
     }
 
-    private void extractedRemoveMethod(JMenu menu) {
-        for (String s : fileNameLinkedList) {
-            JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
-            menu.add(fitem);
-            fitem.addActionListener((ActionEvent ae) -> {
-                tabs.removeTabAt(fileNameLinkedList.indexOf(s) + 1);
-                menu.remove(fitem);
-            });
-        }
-    }
-
     private void pushTextChangesToTabs() {
         for (int i = 0; i < textTabsFilenames.size(); i++) {
             textTabs.get(i).setText(stringLinkedList.get(i));
-            System.out.println(stringLinkedList);
         }
     }
 
     private void pullTabChangesToText() {
         for (int i = 0; i < textTabsFilenames.size(); i++) {
             stringLinkedList.set(i, textTabs.get(i).getText());
-            System.out.println(stringLinkedList);
         }
     }
 
     private void reloadQueue() {
-        try {
-            for (int i = 0; i < queue.getLength(); i++) {
-                queue.deleteItem(i);
-            }
-        } catch (Exception e) {
-            errorDialog("Queue is not of the same length. Error in resetting queue");
-        }
+        queue = new Queue();
         Scanner scanner = new Scanner(queueTextComponent.getText());
         while (scanner.hasNextLine()) {
             try {
