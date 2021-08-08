@@ -35,6 +35,7 @@ public class Rexfro extends JFrame implements ActionListener {
     JMenu runOnIndividual = new JMenu("Run on individual text");
     JTabbedPane tabs = new JTabbedPane();
     JTextComponent queueTextComponent = new JEditorPane();
+    JMenu textRemove = new JMenu("Remove");
 
 
     public Rexfro() {
@@ -257,7 +258,8 @@ public class Rexfro extends JFrame implements ActionListener {
             }
         });
         textMenu.add(textSaveAll);
-
+        dynamicFileMenuAdd(textRemove, "remove");
+        textMenu.add(textRemove);
         JMenuItem textNew = new JMenuItem("New...");
         textMenu.add(textNew);
         textNew.addActionListener(e -> newTextMethod());
@@ -281,7 +283,7 @@ public class Rexfro extends JFrame implements ActionListener {
             textTabsFilenames.add(result);
             reloadDynamicMenus();
         }
-    } // TODO: Finish
+    }
 
     private void textLoadMethod(JMenu textMenu) {
         JMenuItem textLoad = new JMenuItem("Load");
@@ -325,6 +327,7 @@ public class Rexfro extends JFrame implements ActionListener {
     private void reloadDynamicMenus() {
         dynamicFileMenuAdd(textSave, "save");
         dynamicFileMenuAdd(runOnIndividual, "run");
+        dynamicFileMenuAdd(textRemove, "remove");
     }
 
     private void errorDialog(String errorType) {
@@ -335,14 +338,38 @@ public class Rexfro extends JFrame implements ActionListener {
         menu.removeAll();
         if (fileNameLinkedList != null && fileNameLinkedList.size() != 0) {
             if (action.equalsIgnoreCase("save")) {
-                for (String s : fileNameLinkedList) {
-                    JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
-                    menu.add(fitem);
-                    fitem.addActionListener(e -> saveItem(stringLinkedList.get(fileNameLinkedList.indexOf(s)), s));
-                }
+                extractedSaveMethod(menu);
             } else if (action.equalsIgnoreCase("run")) {
                 extractedRunMethod(menu);
+            } else if (action.equalsIgnoreCase("remove")) {
+                extractedRemoveMethod(menu);
             }
+        }
+    }
+
+    private void extractedSaveMethod(JMenu menu) {
+        for (String s : fileNameLinkedList) {
+            JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
+            menu.add(fitem);
+            fitem.addActionListener(e -> saveItem(stringLinkedList.get(fileNameLinkedList.indexOf(s)), s));
+        }
+    }
+
+    private void extractedRemoveMethod(JMenu menu) {
+        for (String s : fileNameLinkedList) {
+            JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
+            menu.add(fitem);
+            fitem.addActionListener((ActionEvent ae) -> {
+                int index = fileNameLinkedList.indexOf(s);
+                tabs.removeTabAt(index + 1);
+                fileNameLinkedList.remove(index);
+                stringLinkedList.remove(index);
+                textTabsFilenames.remove(index);
+                textTabs.remove(index);
+                textSave.remove(index);
+                runOnIndividual.remove(index);
+                menu.remove(index);
+            });
         }
     }
 
