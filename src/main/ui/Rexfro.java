@@ -24,7 +24,8 @@ import java.util.Scanner;
 public class Rexfro extends JFrame implements ActionListener {
     public static final int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
     public static final int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
-    private static final String IMG_PATH = "data/errorimage.jpg";
+    private static final String ERRORIMAGE_JPG = "data/errorimage.jpg";
+    private static final Image icon = Toolkit.getDefaultToolkit().getImage("data/Logo.png");
     private static Queue queue;
 
     private Operator operator;
@@ -42,7 +43,7 @@ public class Rexfro extends JFrame implements ActionListener {
 
 
     public Rexfro() {
-        super("test");
+        super("Rexfro Find And Replace Operator");
         initializeFields();
         initializeGraphics();
     }
@@ -58,6 +59,7 @@ public class Rexfro extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         this.setJMenuBar(menuSystem());
+        this.setIconImage(icon);
         tabSystem();
         this.add(tabs);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,7 +113,7 @@ public class Rexfro extends JFrame implements ActionListener {
     private void readMeCreator(StringBuilder readMe) {
         Scanner input = null;
         try {
-            input = new Scanner(new File("README.md"));
+            input = new Scanner(new File("data/About.txt"));
         } catch (FileNotFoundException exception) {
             errorDialog("README.md file not found");
         }
@@ -129,7 +131,8 @@ public class Rexfro extends JFrame implements ActionListener {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         JFrame tempFrame = new JFrame();
         tempFrame.getContentPane().add(scrollPane);
-        tempFrame.setSize((int) (0.5 * WIDTH), (int) (0.5 * HEIGHT));
+        tempFrame.setSize((int) (0.7 * WIDTH), (int) (0.91 * HEIGHT));
+        tempFrame.setLocationRelativeTo(this);
         tempFrame.setVisible(true);
     }
 
@@ -281,7 +284,7 @@ public class Rexfro extends JFrame implements ActionListener {
         JMenuItem textSaveAll = new JMenuItem("Save All");
         textSaveAll.addActionListener(e -> {
             for (String s : fileNameLinkedList) {
-                saveItem(stringLinkedList.get(fileNameLinkedList.indexOf(s)), s);
+                saveItem(fileNameLinkedList.indexOf(s), s);
             }
         });
         textMenu.add(textSaveAll);
@@ -357,7 +360,7 @@ public class Rexfro extends JFrame implements ActionListener {
         JFrame errorFrame = new JFrame();
         // from https://stackoverflow.com/questions/8333802/displaying-an-image-in-java-swing
         try {
-            BufferedImage img = ImageIO.read(new File(IMG_PATH));
+            BufferedImage img = ImageIO.read(new File(ERRORIMAGE_JPG));
             ImageIcon icon = new ImageIcon(img);
             JLabel label = new JLabel(icon);
             JOptionPane.showMessageDialog(errorFrame, label);
@@ -384,7 +387,7 @@ public class Rexfro extends JFrame implements ActionListener {
         for (String s : fileNameLinkedList) {
             JRadioButtonMenuItem fitem = new JRadioButtonMenuItem(s, false);
             menu.add(fitem);
-            fitem.addActionListener(e -> saveItem(stringLinkedList.get(fileNameLinkedList.indexOf(s)), s));
+            fitem.addActionListener(e -> saveItem(fileNameLinkedList.indexOf(s), s));
         }
     }
 
@@ -452,7 +455,9 @@ public class Rexfro extends JFrame implements ActionListener {
         }
     }
 
-    private void saveItem(String item, String location) {
+    private void saveItem(int index, String location) {
+        pullTabChangesToText();
+        String item = stringLinkedList.get(index);
         if (location.contains("/")) {
             StringWriter writer = new StringWriter(location);
             try {

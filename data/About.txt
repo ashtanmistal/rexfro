@@ -1,0 +1,26 @@
+Welcome to the Rexfro Find and Replace tool!
+Too add a find and replace operation to the queue, enter it as follows into the Queue tab:
+
+find,replace,replaceAll
+
+where replaceAll is a boolean (type any of T,true,Y,1 / F,false,F,0), and find and replace are of
+course the find and replace operations respectively. You can add as many of these operations as
+you wish, where each operation is a new line (Exactly like a .csv file). Please ensure that any
+spaces you add are in fact necessary to that specific operation! The find and replace tool uses
+regular expressions, meaning that it has a significant increase in functionality over a regular
+find and replace tool. However, this does mean that you mustn't forget about escape characters when
+entering find and replace operations. You can save and load the queue as a json, csv, or tsv file.
+
+You can add or load a new text file under the Text menu, which opens the corresponding text file as
+a new tab. You can run the queue through all of the text files you have loaded, or run the queue on
+an individual text file from those loaded. To run the queue on a new file, simply make a new file,
+give it a new name (The name, nor the extension, do not matter if the file is not being saved), and
+select the corresponding text file from the Run menu. If you decide to not run the queue on a text
+file, you can remove it from the application through the Remove tab under Text. Note that this does
+not delete the original file, so there's no need to worry about that.
+
+**NOTE FOR TAs**
+The A / V component is built into the error handling system. For example, if you have a bad queue,
+an error will appear telling you to fix the queue before running it (hence bringing an instance of
+the A / V component). Try keyboard smashing into the Queue box, and then select Run -> Run On All
+(it does not matter if there is a text item loaded or not, the error will still show).
