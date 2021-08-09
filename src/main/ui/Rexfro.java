@@ -187,6 +187,7 @@ public class Rexfro extends JFrame implements ActionListener {
             JFrame tempFrame = new JFrame();
             tempFrame.add(textArea);
             tempFrame.setSize((int) (0.5 * WIDTH), (int) (0.5 * HEIGHT));
+            tempFrame.setLocationRelativeTo(this);
             tempFrame.setVisible(true);
         }
     }
