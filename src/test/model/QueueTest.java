@@ -3,7 +3,6 @@ package model;
 import model.exceptions.InvalidIntegerException;
 import model.exceptions.InvalidLengthException;
 import model.exceptions.InvalidBooleanException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

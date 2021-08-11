@@ -16,7 +16,7 @@ public class TsvWriterTest {
     @Test
     void testWriterInvalidFile() {
         try {
-            Queue queue = new Queue();
+            new Queue();
             TsvWriter writer = new TsvWriter("./data/my\0illegal:fileName.tsv");
             writer.open();
             fail("IOException was expected");

@@ -63,3 +63,14 @@ Because I'm fed up with always having to turn the output of a WolframAlpha query
 - As a user, I want to still be able to directly edit an operation within a loaded queue [Done]
 - As a user, I want to be able to "save all" strings to individual new text files through a numbering system:
     - "FROP_[today's date and time]_[index of string in list].txt", where FROP stands for "Find and Replace Operator" [Done]
+
+
+# Phase 4: Task 2
+
+The option that was chosen for this section of the phase was the following:
+
+- Test and design a class in your model package that is robust.  You must have at least one method that throws a checked exception.  You must have one test for the case where the exception is expected and another where the exception is not expected.
+
+The classes that are robust, and include the necessary tests, are the following:
+
+In the Queue class: modifyItem(Integer i, String newFind, String newReplace, String newAll), swap(int i1, int i2), getBoolString(int i), getFirstBool(), among many others similar

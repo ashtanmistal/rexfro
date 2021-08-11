@@ -1,6 +1,5 @@
 package persistence;
 
-import model.Queue;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -14,7 +13,6 @@ public class StringWriterTest {
     @Test
     void testWriterInvalidFile() {
         try {
-            String string = "roger heathen";
             StringWriter writer = new StringWriter("./data/my\0illegal:fileName.json");
             writer.open();
             fail("IOException was expected");

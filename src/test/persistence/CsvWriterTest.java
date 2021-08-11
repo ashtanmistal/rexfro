@@ -16,7 +16,7 @@ public class CsvWriterTest {
     @Test
     void testWriterInvalidFile() {
         try {
-            Queue queue = new Queue();
+            new Queue();
             CsvWriter writer = new CsvWriter("./data/my\0illegal:fileName.csv");
             writer.open();
             fail("IOException was expected");

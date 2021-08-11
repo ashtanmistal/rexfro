@@ -2,7 +2,6 @@ package persistence;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 // Represents a reader that reads a string from text file
