@@ -73,4 +73,18 @@ The option that was chosen for this section of the phase was the following:
 
 The classes that are robust, and include the necessary tests, are the following:
 
-In the Queue class: modifyItem(Integer i, String newFind, String newReplace, String newAll), swap(int i1, int i2), getBoolString(int i), getFirstBool(), among many others similar
+In the Queue class: modifyItem(Integer i, String newFind, String newReplace, String newAll), swap(int i1, int i2), getBoolString(int i), getFirstBool()
+
+
+# Phase 4: Task 3
+
+Reflect on the design presented in your UML class diagram.  If you had more time to work on the project, is there any refactoring that you would do to improve your design?
+
+Yes, there is definitely some refactoring that should have been done:
+
+- All of my GUI is all in one class; this should be divided into Queue GUI, Text GUI, Run GUI, and the main components remaining in the Rexfro class.
+- The persistence classes should have been merged into an abstract class (at least for the tsv and csv stuff). There is a lot of duplicate code there. 
+- Queue likely should have been separated into multiple classes
+- There's a lot of deprecated methods that are left inside the Queue class, such as the getFirst...() methods that have long been forgotten but left in. There's a lot of cleanup to do. 
+- The entire non-GUI class can be removed w/o loss of functionality as all functionality is included within the GUI
+- It may have been good to implement the Iterator design method to create code that is more readable
