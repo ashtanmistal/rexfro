@@ -13,7 +13,7 @@ import java.util.LinkedList;
 // Class level comments: This provides the methods for operating on a Queue, including getters, modifiers, and
 // saving to JSON capabilities. a Queue holds the operations of Find, Replace, and the boolean replaceAll in individual
 // linked lists.
-public class Queue  implements Writable {
+public class Queue implements Writable {
     // fields go here
     private final LinkedList<String> findQueue = new LinkedList<>();
     private final LinkedList<String> replaceQueue = new LinkedList<>();
@@ -61,7 +61,6 @@ public class Queue  implements Writable {
         String replace = replaceAllQueue.remove(0);
         if (validTrue(replace)) {
             return true;
-
         } else if (validFalse(replace)) {
             return false;
         } else {
