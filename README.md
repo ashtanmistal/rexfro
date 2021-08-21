@@ -1,4 +1,4 @@
-# Find and Replace Bulk Operator
+# Rexfro Find and Replace Bulk Operator
 
 ## An application to perform multiple find-and-replace tasks simultaneously
 
