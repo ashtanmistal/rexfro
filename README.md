@@ -27,4 +27,4 @@ The intention is to make this application usable for anyone working with text do
 
 ## Video Demonstration
 
-[view a demonstration of the project on YouTube here](https://youtu.be/7vAm4ezygag)
+[View a demonstration of the project on YouTube here](https://youtu.be/7vAm4ezygag)
