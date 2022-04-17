@@ -24,3 +24,7 @@ The functionality to either edit a file, or to directly paste text into the appl
 ### Who will use it?
 
 The intention is to make this application usable for anyone working with text documents. (**note**: *Currently only plain text document formats such as .txt, .md, and .tex are intended to be supported, as there is encoding with .word and other formats and it is unknown if the application's functionality will lead to the breaking of important encoding if it treats the document as plain text.)*. Anyone wanting to perform multiple operations on a specific piece of text would find use in the application, and it provides a central hub for different operations to be utilized. Bots on various subreddits, for example, utilize some mass text operations in order to do things like "emojify" a user's comment, turn a comment into poorly translated Shakespearean English, or "owo-ify" a user's comment. Although these examples sound silly, this application would allow easy implementation of new operations such as those mentioned to give the user more control over their documents. 
+
+## Video Demonstration
+
+[view a demonstration of the project on YouTube here](https://youtu.be/7vAm4ezygag)
